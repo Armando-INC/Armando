@@ -3,9 +3,9 @@
 Ubica el punto, elige la policía más cercana, llama con Twilio (en modo prueba, a NUMERO_PRUEBA) y guarda la
 alerta en registro/alertas.json para que el mapa la pinte.
 
-  python Armando/sistema/alerta.py                                  # ubicación del .env
-  python Armando/sistema/alerta.py --nombre "Colegio X" --direccion "Calle 60 # 7-20"
-  python Armando/sistema/alerta.py --lat 4.6458 --lon -74.0632 --sin-llamar --abrir
+  python sistema/alerta.py                                  # ubicación del .env
+  python sistema/alerta.py --nombre "Colegio X" --direccion "Calle 60 # 7-20"
+  python sistema/alerta.py --lat 4.6458 --lon -74.0632 --sin-llamar --abrir
 """
 import argparse
 import json
@@ -14,7 +14,7 @@ import sys
 import threading
 import uuid
 import webbrowser
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import quote
 
 import requests
@@ -33,6 +33,12 @@ def leer():
         return json.loads(ARCHIVO.read_text(encoding='utf-8'))
     except (FileNotFoundError, json.JSONDecodeError):
         return []
+
+
+def activas():
+    """Alertas que siguen dentro del tiempo de enfriamiento (ENFRIAMIENTO_S): las que el mapa mantiene marcadas."""
+    limite = (datetime.now() - timedelta(seconds=config.ENFRIAMIENTO_S)).isoformat(timespec='seconds')
+    return [a for a in leer() if a['hora'] > limite]
 
 
 def _guardar(alerta):
@@ -77,6 +83,8 @@ def disparar(u, destino, llamar=True, extra=None):
         try:
             sid, estado = llamada.llamar(numero, a['mensaje'])
             a['llamada'] = {'estado': estado, 'sid': sid}
+            if not config.TWILIO_CUENTA_PAGA:
+                a['llamada']['detalle'] = 'cuenta trial de Twilio: suena su mensaje de prueba, no el de Armando'
         except RuntimeError as e:
             a['llamada'] = {'estado': 'error', 'detalle': str(e)}
     _guardar(a)
@@ -88,7 +96,7 @@ def seguir_llamada(a, en_segundo_plano=True):
     def actualizar(estado, duracion):
         a['llamada'].update(estado=estado, duracion=duracion)
         _guardar(a)
-        print(f'  [{a["id"]}] llamada: {estado}', flush=True)
+        print(f'  [{a["id"]}] llamada: {estado}' + (f' ({duracion} s)' if duracion else ''), flush=True)
 
     args = (a['llamada']['sid'], actualizar)
     if en_segundo_plano:
@@ -121,7 +129,7 @@ def resumen(a):
                   + (f' · {ll["sid"]}' if ll.get('sid') else ''))
     if a['precision'] == 'aproximada':
         lineas.append('OJO: la dirección se ubicó de forma APROXIMADA. Revisa el punto en el mapa y, si está mal, '
-                      'pon UBICACION_LAT/UBICACION_LON o GOOGLE_MAPS_API_KEY en .env')
+                      'pon UBICACION_LAT/UBICACION_LON en .env')
     return '\n'.join(lineas)
 
 

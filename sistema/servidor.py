@@ -1,8 +1,8 @@
-"""Servidor local: sirve el mapa y una API para ver las alertas en vivo y dispararlas desde el mapa.
+"""Servidor local: sirve el mapa y una API para ver las alertas en vivo.
 
-  python Armando/sistema/servidor.py        ->  http://localhost:8000
+  python sistema/servidor.py        ->  http://localhost:8000
 
-  GET  /api/alertas   últimas 50 alertas (el mapa las consulta cada 3 s)
+  GET  /api/alertas   alertas dentro de ENFRIAMIENTO_S (el mapa las consulta cada 3 s y marca la más reciente)
   GET  /api/estado    modo prueba y qué falta configurar
   POST /api/alerta    {"nombre", "direccion"} o {"nombre", "lat", "lon"}, opcional "sin_llamar": true
 """
@@ -22,7 +22,7 @@ def _num(v):
 
 class Manejador(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=str(config.DIRECTORIO), **kwargs)
+        super().__init__(*args, directory=str(config.MAPA), **kwargs)
 
     def _json(self, datos, codigo=200):
         cuerpo = json.dumps(datos, ensure_ascii=False).encode('utf-8')
@@ -35,12 +35,8 @@ class Manejador(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         ruta = urlparse(self.path).path
-        if ruta == '/':
-            self.send_response(302)
-            self.send_header('Location', '/mapa_directorio.html')
-            self.end_headers()
-        elif ruta == '/api/alertas':
-            self._json(alerta.leer()[-50:])
+        if ruta == '/api/alertas':
+            self._json(alerta.activas())
         elif ruta == '/api/estado':
             self._json({
                 'modo_prueba': config.MODO_PRUEBA,

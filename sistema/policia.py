@@ -3,7 +3,7 @@
 1. El cuadrante MNVCC que contiene el punto, si tiene teléfono (es el celular de la patrulla).
 2. Si no: el cuadrante, CAI, estación o subestación con teléfono más cercano, hasta DISTANCIA_MAX_KM.
 
-Los datos son los mismos que dibuja el mapa: mnvcc_cuadrantes_web.geojson y la constante D de mapa_directorio.html.
+Los datos son los mismos que dibuja el mapa: mapa/datos/mnvcc_cuadrantes.geojson y la constante D de mapa/index.html.
 """
 import json
 import math
@@ -19,16 +19,16 @@ M_POR_GRADO = 111_320
 
 @lru_cache(maxsize=1)
 def unidades():
-    html = (config.DIRECTORIO / 'mapa_directorio.html').read_text(encoding='utf-8')
+    html = (config.MAPA / 'index.html').read_text(encoding='utf-8')
     m = re.search(r'^const D=(\[.*\]);$', html, re.M)
     if not m:
-        raise RuntimeError('No se encontró "const D=[...]" en mapa_directorio.html')
+        raise RuntimeError('No se encontró "const D=[...]" en mapa/index.html')
     return json.loads(m.group(1))
 
 
 @lru_cache(maxsize=1)
 def cuadrantes():
-    g = json.loads((config.DIRECTORIO / 'mnvcc_cuadrantes_web.geojson').read_text(encoding='utf-8'))
+    g = json.loads((config.DATOS / 'mnvcc_cuadrantes.geojson').read_text(encoding='utf-8'))
     salida = []
     for f in g['features']:
         geo = f['geometry']

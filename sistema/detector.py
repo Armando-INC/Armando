@@ -3,12 +3,13 @@
 La ubicación y la policía destino se calculan una vez al arrancar (la cámara es fija), así en el momento de la
 alerta solo falta llamar.
 
-  python Armando/sistema/detector.py --mostrar                 # cámara del .env (CAMARA)
-  python Armando/sistema/detector.py --imagen foto.jpg         # probar el modelo con una imagen
-  python Armando/sistema/detector.py --sin-llamar --mostrar    # todo menos la llamada
+  python sistema/detector.py --mostrar                 # cámara del .env (CAMARA)
+  python sistema/detector.py --imagen foto.jpg         # probar el modelo con una imagen
+  python sistema/detector.py --sin-llamar --mostrar    # todo menos la llamada
 """
 import argparse
 import collections
+import os
 import sys
 import time
 
@@ -19,13 +20,25 @@ import onnxruntime as ort
 import alerta
 import config
 
+# La ventana de OpenCV usa Qt. En Linux avisa que ignora Wayland y que no encuentra fuentes (OpenCV apunta, al
+# importarse, a una carpeta que no trae); no afecta nada, pero así la terminal queda limpia
+if sys.platform.startswith('linux'):
+    if os.environ.get('XDG_SESSION_TYPE') == 'wayland' and 'QT_QPA_PLATFORM' not in os.environ:
+        os.environ['QT_QPA_PLATFORM'], os.environ['XDG_SESSION_TYPE'] = 'xcb', 'x11'
+    if os.path.isdir('/usr/share/fonts/truetype/dejavu'):
+        os.environ['QT_QPA_FONTDIR'] = '/usr/share/fonts/truetype/dejavu'
+
 
 class Detector:
     def __init__(self, modelo=None, umbral=None):
         ruta = config.MODELOS / f'{modelo or config.MODELO}_model.onnx'
         self.sesion = ort.InferenceSession(str(ruta), providers=ort.get_available_providers())
         entrada = self.sesion.get_inputs()[0]
-        self.nombre, (_, self.canales, self.alto, self.ancho) = entrada.name, entrada.shape
+        self.nombre, self.canales = entrada.name, entrada.shape[1]
+        # exportado con dynamic=True el tamaño viene como texto: se usa 640, el de entrenamiento
+        self.alto, self.ancho = (d if isinstance(d, int) else 640 for d in entrada.shape[2:])
+        # exportado con end2end (por defecto en YOLO26) la salida es (1, 300, 6) y ya viene sin duplicados
+        self.end2end = self.sesion.get_outputs()[0].shape[-1] == 6
         self.umbral = config.UMBRAL_CONFIANZA if umbral is None else umbral
 
     def __call__(self, frame):
@@ -43,15 +56,23 @@ class Detector:
         lienzo[dy:dy + nh, dx:dx + nw] = img
         blob = lienzo.transpose(2, 0, 1)[None].astype(np.float32) / 255
 
-        # salida (1, 5, 8400): cx, cy, w, h, confianza de la clase 'Guns'; sin NMS (end2end=False)
-        pred = self.sesion.run(None, {self.nombre: blob})[0][0].T
-        pred = pred[pred[:, 4] >= self.umbral]
+        salida = self.sesion.run(None, {self.nombre: blob})[0][0]
+        if self.end2end:
+            # (300, 6): x1, y1, x2, y2, confianza, clase
+            pred = salida[salida[:, 4] >= self.umbral]
+            return [(int((x1 - dx) / r), int((y1 - dy) / r), int((x2 - dx) / r), int((y2 - dy) / r), float(c))
+                    for x1, y1, x2, y2, c, _ in pred]
+
+        # (4 + clases, 8400): cx, cy, w, h y una confianza por clase; falta quitar duplicados (NMS)
+        pred = salida.T
+        conf = pred[:, 4:].max(axis=1)
+        pred, conf = pred[conf >= self.umbral], conf[conf >= self.umbral]
         if not len(pred):
             return []
         cajas = np.stack([(pred[:, 0] - pred[:, 2] / 2 - dx) / r, (pred[:, 1] - pred[:, 3] / 2 - dy) / r,
                           pred[:, 2] / r, pred[:, 3] / r], axis=1)
-        indices = cv2.dnn.NMSBoxes(cajas.tolist(), pred[:, 4].tolist(), self.umbral, 0.45)
-        return [(int(x), int(y), int(x + bw), int(y + bh), float(pred[i, 4]))
+        indices = cv2.dnn.NMSBoxes(cajas.tolist(), conf.tolist(), self.umbral, 0.45)
+        return [(int(x), int(y), int(x + bw), int(y + bh), float(conf[i]))
                 for i in np.array(indices).flatten() for x, y, bw, bh in [cajas[i]]]
 
 

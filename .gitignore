@@ -1,155 +1,46 @@
-# Byte-compiled / optimized / DLL files
+# ── Secretos ──────────────────────────────────────────────────────────
+# .env tiene tu número y las claves de Twilio: nunca se sube.
+# Solo se versiona .env.example (la plantilla sin valores).
+.env
+.env.*
+!.env.example
+
+# ── Datos que genera Armando al ejecutarse ────────────────────────────
+# alertas, fotos de las detecciones (salen personas) y caché de direcciones
+sistema/registro/
+
+# ── Python ────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
+.venv/
 venv/
-ENV/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
+env/
+.pytest_cache/
 .mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
 
-# Node.js
-node_modules/
-npm-debug.log
-yarn-error.log
-package-lock.json
+# ── Entrenamiento de modelos (Ultralytics) ────────────────────────────
+# corridas y datasets pesan mucho: los pesos finales van en modelos/
+runs/
+datasets/
+*.cache
 
-# C/C++
-*.o
-*.a
-*.so
-*.dylib
-*.dll
-*.exe
-*.out
-*.app
-*.dSYM/
-CMakeFiles/
-cmake_install.cmake
-CMakeCache.txt
-Makefile
+# ── Documento académico (LaTeX): solo fuentes, imágenes y PDF ─────────
+docs/documento-academico/*
+!docs/documento-academico/Images/
+!docs/documento-academico/*.tex
+!docs/documento-academico/*.bib
+!docs/documento-academico/*.pdf
 
-# IDE
+# ── Editores, sistema operativo y herramientas locales ────────────────
 .vscode/
 .idea/
 *.swp
-*.swo
 *~
 .DS_Store
-.sublime-project
-.sublime-workspace
-*.iml
-.gradle/
-
-# OS specific
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-.AppleDouble
-.LSOverride
-
-# ROS
-build/
-devel/
-install/
-.catkin_workspace
-*.swp
-
-# Ignorar TODO en Documento Academico excepto lo que queremos
-Documento\ Academico/*
-!Documento\ Academico/Images/
-!Documento\ Academico/*.tex
-!Documento\ Academico/*.bib
-!Documento\ Academico/*.pdf
-
-# Armando: alertas, capturas y caché de geocodificación generadas al ejecutar
-Armando/sistema/registro/
+*.log
+.claude/

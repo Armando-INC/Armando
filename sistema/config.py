@@ -5,9 +5,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-RAIZ = Path(__file__).resolve().parents[2]
-DIRECTORIO = RAIZ / 'Armando' / 'directorio'
-MODELOS = DIRECTORIO / 'DevMmodel' / 'models'
+RAIZ = Path(__file__).resolve().parents[1]
+MAPA = RAIZ / 'mapa'
+DATOS = MAPA / 'datos'
+MODELOS = RAIZ / 'modelos'
 REGISTRO = Path(__file__).resolve().parent / 'registro'
 CAPTURAS = REGISTRO / 'capturas'
 
@@ -42,6 +43,9 @@ NUMERO_PRUEBA = a_e164(_txt('NUMERO_PRUEBA'))
 TWILIO_ACCOUNT_SID = _txt('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = _txt('TWILIO_AUTH_TOKEN')
 TWILIO_NUMERO_ORIGEN = _txt('TWILIO_NUMERO_ORIGEN')
+# true: cuenta actualizada, se llama desde TWILIO_NUMERO_ORIGEN con el mensaje de Armando.
+# false: cuenta trial, Twilio solo deja usar su plantilla y suena su mensaje genérico en inglés.
+TWILIO_CUENTA_PAGA = _txt('TWILIO_CUENTA_PAGA', 'false').lower() in ('true', '1', 'si', 'sí', 'yes')
 TWILIO_VOZ = _txt('TWILIO_VOZ', 'Polly.Mia')
 REPETICIONES_MENSAJE = _num('REPETICIONES_MENSAJE', 2, int)
 
@@ -51,10 +55,9 @@ UBICACION_LAT = _num('UBICACION_LAT', None)
 UBICACION_LON = _num('UBICACION_LON', None)
 CIUDAD = _txt('CIUDAD')
 
-GOOGLE_MAPS_API_KEY = _txt('GOOGLE_MAPS_API_KEY')
 DISTANCIA_MAX_KM = _num('DISTANCIA_MAX_KM', 20.0)
 
-URL_MAPA = _txt('URL_MAPA', 'https://armando-inc.github.io/Armando/Armando/directorio/mapa_directorio.html')
+URL_MAPA = _txt('URL_MAPA', 'https://armando-inc.github.io/Armando/mapa/')
 PUERTO = _num('PUERTO', 8000, int)
 
 CAMARA = _txt('CAMARA', '0')
@@ -66,4 +69,4 @@ ENFRIAMIENTO_S = _num('ENFRIAMIENTO_S', 120.0)
 
 
 def twilio_configurado():
-    return bool(TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN and TWILIO_NUMERO_ORIGEN)
+    return bool(TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN)
