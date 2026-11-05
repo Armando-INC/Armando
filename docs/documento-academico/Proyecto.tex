@@ -25,11 +25,11 @@
 
 \renewcommand{\arraystretch}{1.3}
 
-\title{Rosberto. Plataforma para la gestión, carga y despliegue de Modelos de Visión y Acción en el Unitree G1 Edu para estandarizar el proceso de investigación universitaria}
-\shorttitle{ROSberto}
+\title{Armando. Plataforma para la gestión, carga y despliegue de Modelos de Visión y Acción en el Unitree G1 Edu para estandarizar el proceso de investigación universitaria}
+\shorttitle{Armando}
 
-\author{Alejandro Roa Aparicio \\ Alisson Dayana Navarro Rodriguez \\ Juan Pablo Quiroga Lugo}
-\affiliation{Universidad EAN}
+\authorsnames[1,1,1]{Alejandro Roa Aparicio, Alisson Dayana Navarro Rodriguez, Juan Pablo Quiroga Lugo}
+\authorsaffiliations{{Universidad EAN}}
 
 \course{Proyecto de grado}
 \professor{Zoraima Oñates Flórez}
@@ -38,7 +38,7 @@
 
 
 \abstract{
- En los últimos años, la investigación en robótica ha impulsado el desarrollo de aplicaciones de inteligencia artificial para robots humanoides. Entre las más comunes está el robot Unitree G1 Edu+29dof, con modelos LVA (Visión-Lenguaje-Acción) y técnicas como el aprendizaje reforzado y el aprendizaje por imitación, lo que facilita el entrenamiento y la comprensión del entorno por parte de los robots. Sin embargo, implementar sistemas de control basados en aprendizaje automático a partir de una simulación o de un modelo entrenado con un dataset presenta desafíos relacionados con la complejidad de las interfaces para desplegar modelos en el robot y con la recopilación de datos de entrenamiento, lo que dificulta la estandarización de los procesos de investigación sobre el robot Unitree G1 Edu+29dof. El siguiente trabajo propone el desarrollo de ROSberto una plataforma orientada a la recolección de datassets, gestión, carga y despliegue de modelos LVA (Visión-Lenguaje-Acción)  con el propósito de simplificar el desarrollo de aplicaciones de aprendizaje robótico sobre el robot Unitree G1 Edu+29dof.
+ En los últimos años, la investigación en robótica ha impulsado el desarrollo de aplicaciones de inteligencia artificial para robots humanoides. Entre las más comunes está el robot Unitree G1 Edu+29dof, con modelos LVA (Visión-Lenguaje-Acción) y técnicas como el aprendizaje reforzado y el aprendizaje por imitación, lo que facilita el entrenamiento y la comprensión del entorno por parte de los robots. Sin embargo, implementar sistemas de control basados en aprendizaje automático a partir de una simulación o de un modelo entrenado con un dataset presenta desafíos relacionados con la complejidad de las interfaces para desplegar modelos en el robot y con la recopilación de datos de entrenamiento, lo que dificulta la estandarización de los procesos de investigación sobre el robot Unitree G1 Edu+29dof. El siguiente trabajo propone el desarrollo de Armando una plataforma orientada a la recolección de datassets, gestión, carga y despliegue de modelos LVA (Visión-Lenguaje-Acción)  con el propósito de simplificar el desarrollo de aplicaciones de aprendizaje robótico sobre el robot Unitree G1 Edu+29dof.
 }
 
 
@@ -92,7 +92,7 @@
 
 El desarrollo contemporáneo de la robótica humanoide ha dejado de ser un campo de investigación exclusivo de simulación para convertirse en una de las fronteras más dinámicas de la Inteligencia Artificial Física (\textit{Physical AI}) \parencite{bjorck2025groot}. Plataformas como el robot bipedal humanoide Unitree G1 Edu combinan un diseño mecánico avanzado de hasta 29 grados de libertad con la capacidad de ejecutar tareas complejas de locomoción y manipulación bimanual en entornos no estructurados \parencite{yan2026rapiddeployment}. Para dotar a estos robots de capacidades autónomas, la investigación científica se ha volcado hacia el uso de Modelos de Visión y Acción (VLA) y paradigmas de aprendizaje robótico como el Aprendizaje por Imitación (\textit{Imitation Learning}) y el Aprendizaje por Refuerzo (\textit{Reinforcement Learning}) \parencite{seo2025learningsimtorealhumanoidlocomotion, yan2026rapiddeployment}.
 
-En este contexto surge Rosberto, una plataforma \textit{middleware} de código abierto diseñada bajo el ecosistema de ROS 2. El propósito de esta infraestructura es estandarizar y simplificar el proceso de investigación universitaria sobre el Unitree G1 Edu, actuando como un puente entre la adquisición de datos de teleoperación, la gestión de datasets multimodales bajo el estándar \textit{LeRobot} \parencite{cadene2026lerobotopensourcelibraryendtoend} y el despliegue en tiempo real de políticas de acción inteligentes. Al unificar estos subcomponentes en un flujo de trabajo optimizado, Rosberto permite que estudiantes e investigadores colaboren activamente sobre una base común, reduciendo la distancia que tradicionalmente separa el desarrollo de algoritmos de su ejecución física en el \textit{hardware} real.
+En este contexto surge Armando, una plataforma \textit{middleware} de código abierto diseñada bajo el ecosistema de ROS 2. El propósito de esta infraestructura es estandarizar y simplificar el proceso de investigación universitaria sobre el Unitree G1 Edu, actuando como un puente entre la adquisición de datos de teleoperación, la gestión de datasets multimodales bajo el estándar \textit{LeRobot} \parencite{cadene2026lerobotopensourcelibraryendtoend} y el despliegue en tiempo real de políticas de acción inteligentes. Al unificar estos subcomponentes en un flujo de trabajo optimizado, Armando permite que estudiantes e investigadores colaboren activamente sobre una base común, reduciendo la distancia que tradicionalmente separa el desarrollo de algoritmos de su ejecución física en el \textit{hardware} real.
 
 \section{Problema}
 
@@ -110,16 +110,16 @@ Finalmente, la brecha de acceso se ve agravada por factores socioeconómicos. Un
 
 \section{Justificación}
 
-El desarrollo de la plataforma Rosberto se justifica por la necesidad apremiante de democratizar la robótica humanoide y de dotar a la comunidad académica de herramientas que reduzcan de forma drástica los tiempos de preparación experimental. Siguiendo la premisa histórica de que la ciencia avanza de manera colectiva al ``subirse a hombros de gigantes'' \parencite{newton1687}, esta plataforma proporciona un entorno integrado y unificado bajo ROS 2 para estructurar todo el ciclo de aprendizaje robótico (\textit{Teleoperar} $\rightarrow$ \textit{Grabar} $\rightarrow$ \textit{Entrenar} $\rightarrow$ \textit{Desplegar}) \parencite{cadene2026lerobotopensourcelibraryendtoend}.
+El desarrollo de la plataforma Armando se justifica por la necesidad apremiante de democratizar la robótica humanoide y de dotar a la comunidad académica de herramientas que reduzcan de forma drástica los tiempos de preparación experimental. Siguiendo la premisa histórica de que la ciencia avanza de manera colectiva al ``subirse a hombros de gigantes'' \parencite{newton1687}, esta plataforma proporciona un entorno integrado y unificado bajo ROS 2 para estructurar todo el ciclo de aprendizaje robótico (\textit{Teleoperar} $\rightarrow$ \textit{Grabar} $\rightarrow$ \textit{Entrenar} $\rightarrow$ \textit{Desplegar}) \parencite{cadene2026lerobotopensourcelibraryendtoend}.
 
-El impacto y valor de Rosberto se divide en tres ejes fundamentales:
+El impacto y valor de Armando se divide en tres ejes fundamentales:
 \begin{enumerate}
     \item \textbf{Democratización del hardware mediante teleoperación remota:} al incorporar un módulo de laboratorio teleoperado compatible con tecnologías de Realidad Virtual (VR) de bajo costo como Meta Quest \parencite{phosphobot2024}, se facilita el acceso remoto al Unitree G1 Edu real. Estudiantes de diferentes estratos y universidades asociadas podrán cargar y evaluar sus propios modelos en un robot físico real sin la necesidad de que sus instituciones adquieran hardware de alto costo.
     \item \textbf{Estandarización de datasets y acumulación científica:} el uso nativo del formato universal de datasets de LeRobot de Hugging Face \parencite{cadene2026lerobotopensourcelibraryendtoend} asegura que cada sesión de teleoperación inmersiva se registre como un dataset estandarizado de imitación multimodal. Esto permite la creación de un repositorio centralizado de experiencias robóticas que puede ser compartido, auditado y mejorado por futuras cohortes de estudiantes, construyendo una base sólida de conocimiento colectivo.
-    \item \textbf{Seguridad y eficiencia operativa:} para mitigar el riesgo de daños físicos sobre el hardware real, Rosberto actúa como un middleware supervisor que incluye una capa de seguridad cinemática en ROS 2, la cual intercepta las acciones del modelo para validar límites articulares y de torque en tiempo real antes de su ejecución.
+    \item \textbf{Seguridad y eficiencia operativa:} para mitigar el riesgo de daños físicos sobre el hardware real, Armando actúa como un middleware supervisor que incluye una capa de seguridad cinemática en ROS 2, la cual intercepta las acciones del modelo para validar límites articulares y de torque en tiempo real antes de su ejecución.
 \end{enumerate}
 
-Al automatizar rutinas de parametrización y simplificar la carga de modelos, Rosberto apunta a reducir el tiempo de parametrización de actuadores y carga de modelos de 1 mes a un 33\%, tomando como referencia plataformas especializadas como The Construct Robotics Institute \parencite{theconstruct2026humanoid}, permitiendo que los investigadores de pregrado dediquen su tiempo a la innovación de algoritmos y a la investigación aplicada en el borde (\textit{Edge Computing}), logrando un uso educativo real, estructurado y de alto impacto de la tecnología humanoide.
+Al automatizar rutinas de parametrización y simplificar la carga de modelos, Armando apunta a reducir el tiempo de parametrización de actuadores y carga de modelos de 1 mes a un 33\%, tomando como referencia plataformas especializadas como The Construct Robotics Institute \parencite{theconstruct2026humanoid}, permitiendo que los investigadores de pregrado dediquen su tiempo a la innovación de algoritmos y a la investigación aplicada en el borde (\textit{Edge Computing}), logrando un uso educativo real, estructurado y de alto impacto de la tecnología humanoide.
 
 \clearpage
 
@@ -139,7 +139,7 @@ el robot humanoide Unitree G1 Edu para estandarizar el proceso de investigación
     \item Parametrizar todos los actuadores del robot humanoide Unitree G1 Edu en la plataforma, permitiendo que, al seleccionar un modelo visión-acción para cargar por red, se identifique automáticamente cada salida del robot.
     \item Cargar y ejecutar modelos de visión y acción en el robot humanoide Unitree G1 Edu.
     \item Realizar una conexión por medio de internet que permita cargar y ejecutar un modelo en el robot humanoide Unitree G1 Edu.
-    \item Reducir el tiempo de parametrización de los actuadores del robot humanoide Unitree G1 Edu y la carga de modelos de 1 mes a un 33\% como se proponen en platafomas especializadas como The Construct Robotics Institute. 
+    \item Reducir el tiempo de parametrización de los actuadores del robot humanoide Unitree G1 Edu y la carga de modelos de 1 mes a un 33\% como se propone en plataformas especializadas como The Construct Robotics Institute.
 \end{itemize}
 
 \clearpage
@@ -198,7 +198,7 @@ Las interfaces de realidad virtual constituyen una evolución de los sistemas tr
 
 Esta característica resulta especialmente relevante para humanoides debido a la necesidad de controlar múltiples grados de libertad. Una interfaz convencional basada exclusivamente en botones o comandos textuales puede dificultar la representación de movimientos complejos. En contraste, una interfaz inmersiva puede permitir una interacción más natural con el sistema.
 
-El proyecto Rosberto contempla una estrategia de teleoperación inmersiva mediante dispositivos de realidad virtual, con el objetivo de facilitar el control bimanual y acelerar la adquisición de demostraciones. En este contexto, la realidad virtual se conceptualiza como una capa adicional de adquisición de datos, superando su función tradicional como interfaz de control.
+El proyecto Armando contempla una estrategia de teleoperación inmersiva mediante dispositivos de realidad virtual, con el objetivo de facilitar el control bimanual y acelerar la adquisición de demostraciones. En este contexto, la realidad virtual se conceptualiza como una capa adicional de adquisición de datos, superando su función tradicional como interfaz de control.
 
 \subsection{Calidad y eficiencia de los datos de entrenamiento}
 
@@ -222,7 +222,7 @@ La heterogeneidad del hardware constituye uno de los principales problemas del a
 
 Open X-Embodiment constituye un ejemplo importante de esta tendencia. El proyecto reúne datos procedentes de 22 robots y 21 instituciones, organizándolos en formatos estandarizados para estudiar políticas capaces de transferir conocimiento entre diferentes plataformas. Los autores reportan 527 habilidades y 160.266 tareas, y muestran que una política entrenada con datos provenientes de múltiples robots puede producir transferencia positiva hacia diferentes plataformas \parencite{fang2023rh20tcomprehensiveroboticdataset}.
 
-Este trabajo introduce un principio fundamental para el proyecto Rosberto: la posibilidad de separar parcialmente los datos de aprendizaje del hardware específico. En lugar de considerar cada robot como un sistema aislado, una arquitectura estandarizada puede representar las experiencias robóticas de modo que puedan ser reutilizadas por diferentes modelos o \textit{embodiments}.
+Este trabajo introduce un principio fundamental para el proyecto Armando: la posibilidad de separar parcialmente los datos de aprendizaje del hardware específico. En lugar de considerar cada robot como un sistema aislado, una arquitectura estandarizada puede representar las experiencias robóticas de modo que puedan ser reutilizadas por diferentes modelos o \textit{embodiments}.
 
 \subsection{LeRobot como paradigma de estandarización}
 
@@ -238,13 +238,13 @@ Dentro de las herramientas contemporáneas para \textit{robot learning}, LeRobot
 \text{Deploy}
 \end{equation}
 
-Este flujo conceptual coincide estrechamente con el ciclo que se busca abstraer en Rosberto.
+Este flujo conceptual coincide estrechamente con el ciclo que se busca abstraer en Armando.
 
 LeRobot utiliza una interfaz común para los robots compatibles, permitiendo que las políticas y scripts de registro trabajen sobre una abstracción de robot en lugar de depender directamente de cada implementación particular.
 
 Asimismo, su formato \textit{LeRobotDataset} busca estandarizar datos robóticos multimodales, incluyendo señales sensorimotoras, vídeo de múltiples cámaras y metadatos para indexación y visualización.
 
-Esta arquitectura resulta especialmente significativa para Rosberto porque plantea explícitamente utilizar el formato LeRobot como mecanismo de estandarización de los datasets generados mediante teleoperación.
+Esta arquitectura resulta especialmente significativa para Armando porque plantea explícitamente utilizar el formato LeRobot como mecanismo de estandarización de los datasets generados mediante teleoperación.
 
 Desde una perspectiva conceptual, puede afirmarse que un sistema como LeRobot intenta abstraer tres niveles:
 
@@ -278,7 +278,7 @@ La elección de la política determina en gran medida las características del e
 
 En este contexto, Action Chunking with Transformers (ACT) representa una contribución importante. Zhao et al. (2023) proponen generar secuencias de acciones en lugar de predecir únicamente una acción individual. Esta estrategia busca reducir la acumulación de errores durante la ejecución y permite representar comportamientos temporales más complejos. En sus experimentos, el sistema ALOHA consiguió realizar varias tareas de manipulación con tasas de éxito de 80--90\,\% utilizando aproximadamente diez minutos de demostraciones por tarea.
 
-En una plataforma como Rosberto, esto implica que la interfaz debe ser independiente de una única política. El sistema debe permitir la selección de diferentes modelos según las características de la tarea y del hardware.
+En una plataforma como Armando, esto implica que la interfaz debe ser independiente de una única política. El sistema debe permitir la selección de diferentes modelos según las características de la tarea y del hardware.
 
 \subsection{Diffusion Policies}
 
@@ -334,7 +334,7 @@ donde $I_t$ corresponde a la información visual, $L_t$ a la instrucción lingü
 
 Este paradigma modifica significativamente el concepto tradicional de entrenamiento robótico. En lugar de entrenar una política completamente nueva para cada tarea, el objetivo puede consistir en adaptar o ajustar un modelo previamente entrenado.
 
-Esta transición es relevante para Rosberto, dado que la plataforma propuesta contempla la carga y el despliegue de modelos de acción avanzados como ACT, $?\pi_0?$ y GR00T.
+Esta transición es relevante para Armando, dado que la plataforma propuesta contempla la carga y el despliegue de modelos de acción avanzados como ACT, $\pi_0$ y GR00T.
 
 \subsection{OpenVLA y modelos abiertos}
 
@@ -354,7 +354,7 @@ Esta característica tiene consecuencias importantes para la accesibilidad de la
 \text{Desplegar}
 \end{equation}
 
-Por lo tanto, una plataforma de investigación debe ir más allá de ofrecer opciones básicas para iniciar el entrenamiento y permitir la gestión integral de modelos, datasets, configuraciones,  extit{checkpoints} y despliegues.
+Por lo tanto, una plataforma de investigación debe ir más allá de ofrecer opciones básicas para iniciar el entrenamiento y permitir la gestión integral de modelos, datasets, configuraciones, \textit{checkpoints} y despliegues.
 
 \subsection{Modelos fundacionales para robótica humanoide}
 
@@ -374,9 +374,9 @@ El entrenamiento directo sobre robots físicos presenta limitaciones relacionada
 
 El paradigma \textit{Sim-to-Real} busca entrenar o preentrenar una política en simulación y posteriormente transferirla al robot físico. Sin embargo, esta transferencia presenta dificultades debido a la diferencia entre las propiedades simuladas y las condiciones reales \parencite{ghasemi2024introductionreinforcementlearning}.
 
-Isaac Lab desarrollado sobre Isaac Sim una plataforma para la simulacion robotica \parencite{gao2026nvidiaisaacsimenabling} constituye un ejemplo contemporáneo de infraestructura orientada a este problema. El framework integra simulación física acelerada por GPU, renderizado, sensores, modelos de actuadores, recopilación de datos y herramientas de \textit{domain randomization}, además de soportar aprendizaje por refuerzo e imitación.
+Isaac Lab, desarrollado sobre Isaac Sim, una plataforma para la simulación robótica \parencite{gao2026nvidiaisaacsimenabling}, constituye un ejemplo contemporáneo de infraestructura orientada a este problema. El framework integra simulación física acelerada por GPU, renderizado, sensores, modelos de actuadores, recopilación de datos y herramientas de \textit{domain randomization}, además de soportar aprendizaje por refuerzo e imitación.
 
-Desde el punto de vista de Rosberto, la simulación representa una posible extensión del ciclo de entrenamiento:
+Desde el punto de vista de Armando, la simulación representa una posible extensión del ciclo de entrenamiento:
 
 \begin{equation}
 \text{Simulación}
@@ -431,7 +431,7 @@ LeRobot constituye un ejemplo actual de esta filosofía. Su documentación plant
 
 Además, LeLab proporciona una interfaz gráfica que permite configurar robots, realizar teleoperación, recolectar datasets, entrenar políticas y ejecutar modelos desde una misma aplicación, reduciendo la necesidad de memorizar comandos de línea de comandos.
 
-Aunque actualmente LeLab presenta compatibilidad limitada a determinadas plataformas, el concepto arquitectónico es relevante para Rosberto, dado que la interfaz puede funcionar como una capa de orquestación sobre un conjunto de herramientas de aprendizaje robótico.
+Aunque actualmente LeLab presenta compatibilidad limitada a determinadas plataformas, el concepto arquitectónico es relevante para Armando, dado que la interfaz puede funcionar como una capa de orquestación sobre un conjunto de herramientas de aprendizaje robótico.
 
 \subsection{Abstracción de hardware}
 
@@ -454,7 +454,7 @@ De esta manera, el modelo interactúa con una representación lógica del robot 
 
 LeRobot utiliza precisamente una interfaz abstracta para representar robots compatibles, donde cada robot implementa operaciones comunes como conexión, lectura de observaciones, envío de acciones y desconexión.
 
-Para Rosberto, esta idea es especialmente relevante, ya que permite que la plataforma no quede completamente acoplada a un único controlador de bajo nivel. El Unitree G1 puede constituir el \textit{embodiment} inicial, mientras que la arquitectura puede mantener una separación entre:
+Para Armando, esta idea es especialmente relevante, ya que permite que la plataforma no quede completamente acoplada a un único controlador de bajo nivel. El Unitree G1 puede constituir el \textit{embodiment} inicial, mientras que la arquitectura puede mantener una separación entre:
 
 \begin{equation}
 \text{Capa de aplicación}
@@ -468,14 +468,14 @@ Para Rosberto, esta idea es especialmente relevante, ya que permite que la plata
 
 \subsection{Middleware y orquestación}
 
-El concepto de middleware resulta fundamental para comprender la propuesta de Rosberto. Un middleware puede actuar como una capa intermedia que conecta diferentes componentes tecnológicos sin exigir al usuario interactuar directamente con cada uno de ellos.
+El concepto de middleware resulta fundamental para comprender la propuesta de Armando. Un middleware puede actuar como una capa intermedia que conecta diferentes componentes tecnológicos sin exigir al usuario interactuar directamente con cada uno de ellos.
 
-En el trabjo propuesto los componentes potenciales incluyen:
+En el trabajo propuesto, los componentes potenciales incluyen:
 
 \begin{equation}
 \text{Usuario}
 \rightarrow
-\text{Interfaz Rosberto}
+\text{Interfaz Armando}
 \end{equation}
 
 \begin{equation}
@@ -527,7 +527,7 @@ Se que busca estandarizar la investigación universitaria y permitir que el cono
 
 La democratización de la robótica puede entenderse como la reducción de las barreras económicas, técnicas y de conocimiento necesarias para experimentar con sistemas robóticos avanzados.
 
-Podria veneficiar a estudiantes de pregrado, investigadores y profesores, y universidades. En particular, plantea que una plataforma estandarizada podría reducir la necesidad de que cada estudiante adquiera conocimientos profundos sobre drivers de bajo nivel y permitir un mejor aprovechamiento de hardware costoso mediante acceso remoto y seguro.
+Podría beneficiar a estudiantes de pregrado, investigadores, profesores y universidades. En particular, plantea que una plataforma estandarizada podría reducir la necesidad de que cada estudiante adquiera conocimientos profundos sobre drivers de bajo nivel y permitir un mejor aprovechamiento de hardware costoso mediante acceso remoto y seguro.
 
 La democratización no implica la eliminación de la complejidad técnica del sistema, sino su traslado desde el usuario final hacia componentes de infraestructura reutilizables.
 
@@ -535,7 +535,7 @@ Así, el objetivo de una interfaz de alto nivel no es reemplazar ROS, SDK, frame
 
 \subsection{Unitree G1 Education Edition como plataforma de investigación}
 
-El Unitree G1 constituye el \textit{embodiment} físico sobre el cual se plantea validar la plataforma Rosberto. En este contexto, el robot no debe considerarse únicamente como un actuador, sino como un sistema experimental que integra percepción, locomoción, manipulación, control y procesamiento.
+El Unitree G1 constituye el \textit{embodiment} físico sobre el cual se plantea validar la plataforma Armando. En este contexto, el robot no debe considerarse únicamente como un actuador, sino como un sistema experimental que integra percepción, locomoción, manipulación, control y procesamiento.
 
 El desafío de entrenar modelos sobre un humanoide es mayor que en sistemas de manipulación de menor dimensionalidad debido a la necesidad de coordinar múltiples subsistemas. Las tareas pueden involucrar simultáneamente manipulación bimanual, equilibrio, locomoción y percepción.
 
@@ -584,11 +584,11 @@ Después del despliegue, las nuevas experiencias pueden volver al dataset:
 
 Por lo tanto, el aprendizaje robótico puede entenderse como un ciclo continuo y no como un proceso lineal.
 
-En este contexto, una interfaz como Rosberto puede desempeñar el papel de conectar las diferentes etapas del ciclo, la integración de la gestión de modelos VLA, la estandarización de datasets y la teleoperación inmersiva.
+En este contexto, una interfaz como Armando puede desempeñar el papel de conectar las diferentes etapas del ciclo, la integración de la gestión de modelos VLA, la estandarización de datasets y la teleoperación inmersiva.
 
-\subsection{Relación conceptual con Rosberto}
+\subsection{Relación conceptual con Armando}
 
-Con base en los fundamentos expuestos, Rosberto puede conceptualizarse como una plataforma middleware de alto nivel cuyo objetivo es reducir la complejidad operacional del ciclo de aprendizaje robótico sobre el Unitree G1.
+Con base en los fundamentos expuestos, Armando puede conceptualizarse como una plataforma middleware de alto nivel cuyo objetivo es reducir la complejidad operacional del ciclo de aprendizaje robótico sobre el Unitree G1.
 
 Su arquitectura conceptual puede representarse mediante cinco capas:
 
@@ -628,7 +628,7 @@ Los trabajos de ALOHA, Open X-Embodiment, Diffusion Policy, RT-2 y OpenVLA muest
 
 Paralelamente, plataformas como LeRobot e Isaac Lab muestran que la infraestructura utilizada para desarrollar modelos se está convirtiendo en un componente fundamental de la investigación. LeRobot integra control de hardware, adquisición de datos, datasets, entrenamiento y despliegue en un flujo común, mientras que Isaac Lab proporciona una infraestructura orientada al aprendizaje robótico a gran escala en simulación \parencite{cadene2026lerobotopensourcelibraryendtoend}.
 
-A partir de esta convergencia se identifica el fundamento conceptual de Rosberto: una plataforma orientada a reducir la distancia existente entre el investigador y la infraestructura necesaria para entrenar y desplegar modelos sobre un robot humanoide. En lugar de reemplazar los frameworks y algoritmos existentes, la propuesta busca integrarlos bajo una interfaz común, facilitando la adquisición de demostraciones, la gestión de datasets, el entrenamiento y la implementación de modelos sobre el Unitree G1 Education Edition.
+A partir de esta convergencia se identifica el fundamento conceptual de Armando: una plataforma orientada a reducir la distancia existente entre el investigador y la infraestructura necesaria para entrenar y desplegar modelos sobre un robot humanoide. En lugar de reemplazar los frameworks y algoritmos existentes, la propuesta busca integrarlos bajo una interfaz común, facilitando la adquisición de demostraciones, la gestión de datasets, el entrenamiento y la implementación de modelos sobre el Unitree G1 Education Edition.
 
 \clearpage
 
@@ -636,102 +636,62 @@ A partir de esta convergencia se identifica el fundamento conceptual de Rosberto
 
 \subsection{Estrategia de búsqueda}
 
-La estrategia de búsqueda se estructurará mediante la combinación de términos asociados a cuatro conceptos principales: robótica humanoide, aprendizaje robótico, interfaces o plataformas de entrenamiento y métodos de inteligencia artificial aplicados al control y aprendizaje de robots.
+La estrategia de búsqueda se estructuró mediante la combinación de términos asociados a cuatro conceptos principales: Weapon detection,  edge devices, computer vision,
 
-Las búsquedas se realizarán mediante operadores booleanos como \texttt{AND} y \texttt{OR}. La estrategia de búsqueda inicial se adaptará posteriormente a la sintaxis específica de cada base de datos, manteniendo los conceptos fundamentales definidos para la revisión.
+Las búsquedas se realizaron mediante operadores booleanos como \texttt{AND} y \texttt{OR}. La estrategia de búsqueda inicial se adaptó a la sintaxis específica de cada base de datos, manteniendo los conceptos fundamentales definidos.
 
-La ecuación de búsqueda general propuesta es:
-
-\begin{verbatim}
-("humanoid robot" OR "humanoid robots" OR "humanoid robotics"
-OR "robot manipulation")
-AND
-("robot learning" OR "imitation learning"
-OR "learning from demonstration")
-AND
-("interface" OR "framework" OR "platform"
-OR "pipeline" OR "workflow")
-AND
-("training" OR "deployment" OR "teleoperation"
-OR "foundation model" OR "vision language action")
-\end{verbatim}
-
-Como estrategia complementaria, se empleará una ecuación orientada específicamente a identificar interfaces y plataformas destinadas al aprendizaje robótico:
+La ecuación de búsqueda generales:
 
 \begin{verbatim}
-("robot learning" OR "humanoid robotics")
+("Weapon detection" OR "Firearm detection")
 AND
-("user interface" OR "training interface"
-OR "learning framework" OR "learning platform")
+("edge devices" OR "low power devices" OR "IoT" OR "Internet of things")
+AND
+("computer vision" OR "Convolutional neural network" OR "neural networks")
 \end{verbatim}
 
-Otra ecuación estará orientada a la adquisición de demostraciones mediante mecanismos de teleoperación:
-
-\begin{verbatim}
-("humanoid robot" OR "robot manipulation")
-AND
-("teleoperation" OR "virtual reality"
-OR "human demonstration")
-AND
-("imitation learning"
-OR "learning from demonstration")
-\end{verbatim}
-
-Asimismo, se empleará una ecuación específica para identificar trabajos relacionados con modelos fundacionales y modelos de visión-lenguaje-acción:
-
-\begin{verbatim}
-("robot learning" OR "humanoid robot")
-AND
-("vision language action" OR "VLA"
-OR "robot foundation model"
-OR "foundation model")
-AND
-("deployment" OR "training" OR "manipulation")
-\end{verbatim}
-
-Las ecuaciones de búsqueda serán adaptadas a las características y sintaxis de cada base de datos y motor de búsqueda, procurando mantener equivalencia entre los conceptos utilizados y garantizar la reproducibilidad del proceso.
+Las ecuaciones de búsqueda se adaptaron a las características y sintaxis de cada base de datos y motor de búsqueda, procurando mantener la equivalencia entre los conceptos utilizados y garantizar la reproducibilidad del proceso.
 
 \subsection{Bases de datos y fuentes de información}
 
-La búsqueda bibliográfica se llevará a cabo principalmente en bases de datos académicas especializadas en ingeniería, informática, inteligencia artificial y robótica. Las fuentes principales serán \textit{Scopus}, \textit{Web of Science}, \textit{IEEE Xplore} y \textit{ScienceDirect}.
+La búsqueda bibliográfica se llevó a cabo principalmente en bases de datos académicas, las principales fuentes fueron \textit{Scopus}, \textit{Web of Science}, \textit{nature} y \textit{ScienceDirect}.
 
-Adicionalmente, se consultarán repositorios científicos como \textit{arXiv} con el propósito de identificar investigaciones recientes, preprints y trabajos relacionados con tendencias emergentes en robótica humanoide, aprendizaje robótico y modelos fundacionales.
+Adicionalmente, se consultaron repositorios científicos, como \textit{arXiv} y white papers de empresas privadas para identificar investigaciones recientes y trabajos relacionados con tendencias emergentes en la detección de armas de fuego.
 
-Los documentos recuperados de repositorios y otras fuentes complementarias se diferenciarán de los artículos indexados en las principales bases de datos bibliográficas. Estas fuentes podrán utilizarse para complementar la revisión y contextualizar desarrollos tecnológicos recientes, sin considerarlas necesariamente equivalentes a los estudios académicos principales incluidos en el análisis sistemático.
+Los documentos recuperados de repositorios y otras fuentes complementarias se diferenciarán de los artículos indexados en las principales bases de datos bibliográficas. Estas fuentes se utilizaron para complementar la revisión y contextualizar los desarrollos tecnológicos recientes.
 
 \subsection{Periodo e idiomas de búsqueda}
 
-La revisión abarcará publicaciones comprendidas entre 2020 y 2026. Este intervalo temporal permitirá concentrar el análisis en el desarrollo reciente de técnicas de aprendizaje robótico, modelos fundacionales, teleoperación, conjuntos de datos robóticos y plataformas de entrenamiento.
+La revisión abarco publicaciones comprendidas entre 2020 y 2026. Este intervalo temporal se consideró para obtener las aplicaciones mejor desarrolladas basadas en avances en nuevas arquitecturas de visión por computadora de los últimos 6 años.
 
-Se considerarán publicaciones disponibles en inglés y español, debido a que constituyen los principales idiomas de publicación de la literatura científica relacionada con inteligencia artificial, robótica y aprendizaje robótico.
-
-La fecha de cierre de la búsqueda será registrada durante la ejecución de la revisión, con el fin de establecer con precisión el periodo cubierto por los resultados obtenidos.
+Se consideraron publicaciones disponibles en inglés, dado que constituye el principal idioma de publicación de la literatura científica sobre visión artificial.
 
 \subsection{Criterios de inclusión}
 
-Los estudios recuperados durante la búsqueda serán considerados candidatos para la revisión cuando cumplan con los siguientes criterios:
+Los estudios recuperados durante la búsqueda fueron considerados candidatos al cumplir los siguientes criterios:
 
 \begin{enumerate}
-\item Haber sido publicados entre 2020 y 2026.
-\item Abordar temas relacionados con el aprendizaje robótico, la robótica humanoide, la manipulación robótica o el control basado en inteligencia artificial.
-\item Presentar una interfaz, plataforma, \textit{framework}, \textit{pipeline}, metodología o arquitectura orientada al entrenamiento, la adquisición de datos, el aprendizaje o el despliegue de modelos robóticos.
-\item Abordar, de manera directa o indirecta, técnicas como el aprendizaje por imitación, el aprendizaje a partir de demostraciones, la teleoperación, los modelos de visión-lenguaje-acción, los modelos fundacionales, el aprendizaje por refuerzo o la transferencia \textit{sim-to-real}.
-\item Presentar una contribución relacionada con la reducción de la complejidad del desarrollo, entrenamiento o despliegue de modelos de inteligencia artificial en robots.
-\item Para los estudios principales de la revisión, corresponder a artículos publicados en revistas, congresos o fuentes académicas indexadas en Scopus o Web of Science.
+\item Haber sido publicados antes o después de los años 2020 y 2026(no es aplicable a las publicaciones mencionadas en artículos publicados).
+\item Abordar, de manera directa o indirecta, las arquitecturas de modelos.
+\item Presentar una contribución a la optimización de cómputo o presentar una mejora a la detección de armas.
+\item Una metodología enfocada en el uso de dispositivos denominados edge devices.
+\item Enfocarse en la detección en areas públicas.
 \end{enumerate}
 
 \subsection{Criterios de exclusión}
 
-Serán excluidos aquellos documentos que cumplan alguno de los siguientes criterios:
+Fueron excluidos aquellos documentos que cumplan alguno de los siguientes criterios:
 
 \begin{enumerate}
 \item Haber sido publicados antes de 2020.
-\item No tener relación con el aprendizaje robótico, la inteligencia artificial aplicada a robots o la robótica humanoide.
-\item Concentrarse exclusivamente en aspectos mecánicos, estructurales o electrónicos del robot que no estén relacionados con los procesos de aprendizaje, adquisición de datos o entrenamiento.
-\item Presentar únicamente desarrollos teóricos sin aplicación o evaluación relacionada con robots.
-\item No proporcionar información suficiente para identificar la metodología, arquitectura, implementación o resultados del trabajo.
+\item Afirmaciones de precisión entre 98\% y 100\% en la detección de los modelos(este criterio se puede ignorar si el documento tiene más de 20 citas). 
+\item Hacer uso de cómputo en la nube externo para realizar la inferencia del modelo.
+\item No especificar por qué se eligió la arquitectura para el entrenamiento.
+\item Concentrarse exclusivamente en comparar el desempeño de cómputo de los dispositivos.
+\item Presentar únicamente desarrollos teóricos, sin aplicación ni evaluación.
+\item No proporcionar información suficiente para identificar la metodología y la arquitectura del modelo.
 \item Corresponder a documentos duplicados identificados en diferentes bases de datos o fuentes de información.
-\item No presentar una relación significativa con el objetivo de simplificar la adquisición de datos, el entrenamiento, la gestión o el despliegue de modelos robóticos.
+\item No presentar una relación significativa con la detección de armas de fuego.
 \end{enumerate}
 
 \subsection{Proceso de selección de estudios}
@@ -788,7 +748,43 @@ La identificación de estas brechas permitirá establecer la relación entre el 
 
 \section{Metodología}
 
-Este proyecto aborda una metodología de acción-resultado, en la que se propone una acción que, al llevar a cabo su ejecución, da como resultado el cumplimiento de cada uno de los objetivos específicos del proyecto. Esta correspondencia directa asegura que la viabilidad de Rosberto no dependa de suposiciones, sino de la validación empírica de los componentes de software y control integrados sobre el Unitree G1 Edu.
+Esta sección describe cómo se desarrollará Armando y cómo se comprobará, con evidencia empírica, que el problema planteado existe y que la solución propuesta lo resuelve. Por ello combina dos componentes: una metodología de \textbf{desarrollo tecnológico}, basada en \textit{Design Science Research}, y una metodología de \textbf{investigación} que define el enfoque, el alcance, el diseño, la población y la muestra, los instrumentos, su validación y las técnicas de análisis. La matriz de acciones y resultados (MAM-RE) y las cinco fases de desarrollo se conservan como el detalle operativo del primer componente.
+
+\subsection{Enfoque, alcance y diseño de la investigación}
+
+\textbf{Enfoque.} La investigación adopta un enfoque \textbf{mixto} de predominio cuantitativo \parencite{hernandezsampieri2014}. El componente cuantitativo mide tiempos operativos, tasas de éxito, latencias y puntuaciones de usabilidad y percepción; el componente cualitativo, a través de preguntas abiertas y de la observación de las sesiones, permite interpretar las barreras que enfrentan los usuarios y las causas de los errores detectados.
+
+\textbf{Alcance.} El estudio es \textbf{descriptivo} en la fase de diagnóstico, pues caracteriza las barreras que enfrentan estudiantes e investigadores al desplegar modelos de aprendizaje robótico sobre un humanoide, y \textbf{aplicado-evaluativo} en la fase de validación, pues determina si la plataforma cumple los objetivos específicos formulados \parencite{hernandezsampieri2014}.
+
+\textbf{Diseño.} El diseño general es \textit{Design Science Research} (DSR), un paradigma orientado a crear y evaluar artefactos tecnológicos que resuelven un problema identificado \parencite{hevner2004design}. Se sigue el proceso de seis actividades propuesto por \textcite{peffers2007dsrm}, que se relacionan con las secciones y fases de este documento en la Tabla \ref{tab:dsr}. Dentro de este diseño, la evaluación del artefacto es de tipo \textbf{cuasi-experimental de un solo grupo}: no hay asignación aleatoria ni grupo de control simultáneo, y el efecto de Armando sobre el tiempo operativo se contrasta con una línea base definida a priori (véase la sección de técnicas de análisis).
+
+\begin{table}[htbp]
+\centering
+\caption{Correspondencia entre las actividades de \textit{Design Science Research} y el proyecto}
+\label{tab:dsr}
+\begin{tabular}{|p{5.0cm}|p{9.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Actividad DSR} & \textbf{Correspondencia en el proyecto} \\
+\hline
+1. Identificación del problema y motivación & Secciones Problema y Justificación; encuesta diagnóstica (Instrumento 1) \\
+\hline
+2. Definición de los objetivos de la solución & Objetivos específicos OE-01 a OE-05 y criterios de éxito de la Tabla \ref{tab:validacion} \\
+\hline
+3. Diseño y desarrollo & Fases I a IV de la Tabla \ref{tab:mam-re} y de la subsección de fases de desarrollo \\
+\hline
+4. Demostración & Sesiones supervisadas sobre el Unitree G1 Edu del FabLab (Instrumento 3) \\
+\hline
+5. Evaluación & Fase V: prueba de usabilidad, \textit{benchmarking} de tiempos y validación de seguridad (Instrumentos 2 y 3) \\
+\hline
+6. Comunicación & Este documento, la sustentación y el repositorio de código abierto \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Matriz de acciones y resultados (MAM-RE) y fases de desarrollo}
+
+La matriz MAM-RE es una herramienta de trazabilidad elaborada por los autores, no un método con respaldo bibliográfico propio. Su función es operacionalizar la actividad 3 de DSR: relacionar cada objetivo específico con la acción de desarrollo que lo cumple y con el entregable verificable que resulta de ella. La verificación de cada entregable se define en la Tabla \ref{tab:validacion}.
 
 A continuación se presenta la Tabla \ref{tab:mam-re} con las acciones que se realizarán para cumplir cada uno de los objetivos del proyecto.
 
@@ -807,7 +803,7 @@ A continuación se presenta la Tabla \ref{tab:mam-re} con las acciones que se re
 \endhead
 
 \textbf{OE-01: Indexación y ordenamiento.} Ordenar y listar modelos visión-acción para cargar por red al Unitree G1 Edu. &
-\textbf{Desarrollo del repositorio de modelos VLA:} construcción del backend y frontend de Rosberto para indexar, clasificar y visualizar modelos VLA (ACT, $\pi_0$, GR00T) compatibles con el Unitree G1. &
+\textbf{Desarrollo del repositorio de modelos VLA:} construcción del backend y frontend de Armando para indexar, clasificar y visualizar modelos VLA (ACT, $\pi_0$, GR00T) compatibles con el Unitree G1. &
 \textbf{Módulo catálogo de modelos:} interfaz que lista los modelos disponibles, detallando arquitectura, hiperparámetros y compatibilidad de datasets. \\
 \hline
 
@@ -823,16 +819,16 @@ A continuación se presenta la Tabla \ref{tab:mam-re} con las acciones que se re
 
 \textbf{OE-04: Conectividad remota.} Realizar una conexión por internet que permita cargar y ejecutar un modelo de forma remota. &
 \textbf{Arquitectura de red y teleoperación remota:} desarrollo de un servicio de red para la transferencia remota de checkpoints de modelos y datos sensoriales desde terminales externas y cascos de realidad virtual. &
-\textbf{Servicio de red de Rosberto:} conexión por internet funcional que permite a un usuario remoto subir un modelo VLA entrenado y comandar la ejecución del robot. \\
+\textbf{Servicio de red de Armando:} conexión por internet funcional que permite a un usuario remoto subir un modelo VLA entrenado y comandar la ejecución del robot. \\
 \hline
 
 \textbf{OE-05: Optimización temporal.} Reducir el tiempo de parametrización de actuadores y carga de modelos de 1 mes a un 33\%, tomando como referencia plataformas especializadas como The Construct Robotics Institute \parencite{theconstruct2026humanoid}. &
-\textbf{Benchmarking de tiempos y pruebas de usabilidad:} medición sistemática del tiempo de preparación, configuración y despliegue usando Rosberto frente al flujo de comandos tradicional. &
+\textbf{Benchmarking de tiempos y pruebas de usabilidad:} medición sistemática del tiempo de preparación, configuración y despliegue usando Armando frente al flujo de comandos tradicional. &
 \textbf{Informe de rendimiento temporal:} comparación de tiempos que verifica el cumplimiento de la meta de reducción de 1 mes a un 33\% en los tiempos operativos. \\
 \hline
 \end{longtable}
 
-El desarrollo metodológico de Rosberto se organiza en cinco fases secuenciales e iterativas:
+El desarrollo metodológico de Armando se organiza en cinco fases secuenciales e iterativas:
 
 \begin{enumerate}
     \item Diagnóstico y análisis de requerimientos.
@@ -848,7 +844,7 @@ El desarrollo metodológico de Rosberto se organiza en cinco fases secuenciales 
     \item \textbf{Requerimientos de software:} definición del ecosistema compatible con CUDA, PyTorch, LeRobot y cascos de realidad virtual Meta Quest.
 \end{itemize}
 
-\textbf{Fase II: Diseño de arquitectura del middleware.} Siguiendo los principios de abstracción de hardware y separación de responsabilidades expuestos en el marco teórico, se decide construir la capa de despliegue del middleware sobre ROS 2, y se diseña la arquitectura lógica de Rosberto en las cinco capas ya definidas conceptualmente: interacción, adquisición, datos, aprendizaje y despliegue.
+\textbf{Fase II: Diseño de arquitectura del middleware.} Siguiendo los principios de abstracción de hardware y separación de responsabilidades expuestos en el marco teórico, se decide construir la capa de despliegue del middleware sobre ROS 2, y se diseña la arquitectura lógica de Armando en las cinco capas ya definidas conceptualmente: interacción, adquisición, datos, aprendizaje y despliegue.
 
 \textbf{Fase III: Desarrollo de la capa de datos e imitation learning.} Esta fase aborda la recolección estandarizada de datos mediante teleoperación:
 \begin{itemize}
@@ -865,8 +861,143 @@ El desarrollo metodológico de Rosberto se organiza en cinco fases secuenciales 
 \textbf{Fase V: Validación de seguridad, benchmarking y optimización.} La fase final valida la eficiencia y seguridad cinemática del sistema antes del despliegue en laboratorios de pregrado:
 \begin{itemize}
     \item \textbf{Capa de seguridad cinemática:} implementación de un nodo supervisor que monitorea el par y los límites angulares de las articulaciones del robot, interceptando comandos anómalos de las redes neuronales y gestionando una parada de emergencia por software.
-    \item \textbf{Pruebas comparativas de rendimiento temporal:} ejecución del protocolo experimental comparando el tiempo de configuración tradicional frente al despliegue automatizado con Rosberto. Esta comparación mide el tiempo operativo que le toma a una persona parametrizar los actuadores y poner en marcha un modelo, no la velocidad de carga o inferencia del modelo dentro del robot; el análisis estadístico de los tiempos medidos valida si se alcanza la reducción propuesta de 1 mes a un 33\% en dicho tiempo operativo humano.
+    \item \textbf{Pruebas comparativas de rendimiento temporal:} ejecución del protocolo experimental comparando el tiempo de configuración tradicional frente al despliegue automatizado con Armando. Esta comparación mide el tiempo operativo que le toma a una persona parametrizar los actuadores y poner en marcha un modelo, no la velocidad de carga o inferencia del modelo dentro del robot; el análisis estadístico de los tiempos medidos valida si se alcanza la reducción propuesta de 1 mes a un 33\% en dicho tiempo operativo humano.
 \end{itemize}
+
+\subsection{Población, participantes y muestra}
+
+Se distinguen dos grupos de participantes, uno por cada propósito de validación.
+
+\textbf{Población 1 (validación del problema).} Estudiantes de pregrado y posgrado de programas de ingeniería y afines (mecatrónica, electrónica, sistemas, industrial, entre otros), y docentes e investigadores de universidades colombianas que trabajan o tienen interés en robótica e inteligencia artificial. Es la población para la que se formula el problema: quienes deben configurar, entrenar y desplegar modelos sobre robots humanoides con recursos limitados.
+
+\textbf{Población 2 (validación de la solución).} Estudiantes de ingeniería con conocimientos básicos de programación y sin experiencia previa con el Unitree G1 Edu, que representan al usuario objetivo de la plataforma.
+
+\textbf{Muestra.} No se dispone de un marco muestral completo de la población, por lo que se emplea un muestreo \textbf{no probabilístico por conveniencia con criterio}, en el que los participantes se seleccionan por su accesibilidad y su pertinencia con el perfil definido \parencite{otzen2017muestreo}. Los tamaños objetivo son:
+
+\begin{itemize}
+    \item \textbf{Encuesta diagnóstica:} al menos 30 respondientes válidos, distribuidos entre estudiantes y docentes o investigadores. Este tamaño permite un análisis descriptivo por perfil, pero no una generalización estadística a toda la población.
+    \item \textbf{Prueba de usabilidad:} entre 5 y 10 participantes. Con muestras de este orden se detecta la mayor parte de los problemas de usabilidad de una interfaz \parencite{nielsen1993mathematical}, aunque los indicadores cuantitativos obtenidos con ellas son indicativos y no concluyentes.
+\end{itemize}
+
+Los criterios de inclusión son ser mayor de edad, tener formación o vinculación con ingeniería o ciencias afines y aceptar el consentimiento informado. Se excluyen las respuestas incompletas o duplicadas.
+
+\subsection{Instrumentos de recolección de datos}
+
+\begin{enumerate}
+    \item \textbf{Instrumento 1: encuesta diagnóstica y de valoración del concepto.} Cuestionario en línea con preguntas cerradas (escala tipo Likert de cinco puntos \parencite{likert1932}, opción múltiple y una pregunta numérica) y dos preguntas abiertas. Se organiza en cuatro bloques: (a) perfil y experiencia previa en robótica y aprendizaje automático; (b) barreras percibidas para configurar y desplegar modelos sobre un humanoide (dependencias, \textit{drivers}, acceso al \textit{hardware}, costo); (c) tiempo estimado que tomaría o tomó poner en marcha un modelo sobre un robot, dato que alimenta la línea base de OE-05; y (d) valoración de las funciones de Armando (catálogo de modelos, parametrización automática, acceso remoto y datasets en formato LeRobot).
+    \item \textbf{Instrumento 2: prueba de usabilidad con tareas y escala SUS.} Los participantes ejecutan tareas guiadas sobre Armando (listar y seleccionar un modelo, verificar la parametrización de actuadores, cargar y ejecutar el modelo) mientras se registran el tiempo, el éxito y los errores. Al finalizar responden la \textit{System Usability Scale} (SUS), un cuestionario estandarizado de diez ítems \parencite{brooke1996sus}.
+    \item \textbf{Instrumento 3: bitácora de sesiones y registros del sistema.} Ficha por sesión sobre el Unitree G1 Edu (fecha, objetivo, resultado, incidentes) y registros con marca de tiempo generados por el propio middleware: tiempo de parametrización, tiempo de carga y puesta en marcha, latencia de la conexión remota, comandos interceptados por la capa de seguridad y cantidad de intervenciones manuales. La ficha de sesión coincide con el registro comprometido en la propuesta de uso del robot presentada al FabLab de la Universidad EAN.
+    \item \textbf{Instrumento 4: matriz de extracción de datos.} Instrumento de la revisión del estado del arte descrito en la sección correspondiente, que sistematiza las características de las plataformas y trabajos revisados.
+\end{enumerate}
+
+\subsection{Validación de los instrumentos}
+
+Antes de su aplicación definitiva, los Instrumentos 1 y 2 se someten a tres controles:
+
+\begin{itemize}
+    \item \textbf{Juicio de expertos:} dos o tres docentes o investigadores con experiencia en robótica y en metodología de la investigación evalúan cada ítem en claridad, pertinencia y coherencia con los objetivos, y sus observaciones se incorporan antes de la aplicación.
+    \item \textbf{Prueba piloto:} aplicación a un grupo de 5 a 10 personas ajeno a la muestra final para detectar ambigüedades, tiempos de respuesta excesivos y fallas técnicas del formulario.
+    \item \textbf{Consistencia interna:} cálculo del coeficiente alfa de Cronbach \parencite{cronbach1951coefficient} para los bloques de escala Likert, con el valor de 0,70 como referencia convencional. Con muestras pequeñas este coeficiente es inestable, por lo que se reporta con su intervalo de confianza y se interpreta con cautela.
+\end{itemize}
+
+Para el Instrumento 3, la validez de las mediciones de tiempo se asegura definiendo previamente el inicio y el fin de cada intervalo medido (por ejemplo, desde la conexión al robot hasta la confirmación de que la última articulación quedó parametrizada) y midiéndolos tanto con cronómetro como con las marcas de tiempo del sistema.
+
+\subsection{Procedimiento}
+
+\begin{enumerate}
+    \item Revisión del estado del arte según el protocolo de búsqueda descrito en la sección anterior.
+    \item Diseño de los instrumentos y validación mediante juicio de expertos y prueba piloto.
+    \item Aplicación de la encuesta diagnóstica (Instrumento 1), cuyos resultados refinan los requerimientos de la Fase I y respaldan empíricamente el problema.
+    \item Desarrollo de Armando (Fases I a IV).
+    \item Sesiones de demostración supervisadas sobre el Unitree G1 Edu, con registro en la bitácora (Instrumento 3).
+    \item Medición de la línea base y prueba de usabilidad con participantes (Instrumentos 2 y 3), como parte de la Fase V.
+    \item Análisis de datos, contraste con los criterios de éxito y redacción de resultados y conclusiones.
+\end{enumerate}
+
+\textbf{Línea base de tiempos (OE-05).} El tiempo del flujo tradicional se obtiene por triangulación de tres fuentes: (i) el valor de referencia de un mes correspondiente a las plataformas especializadas citadas en los objetivos; (ii) la mediana de los tiempos declarados por los respondientes con experiencia previa en la encuesta diagnóstica; y (iii) cuando la disponibilidad del robot lo permita, la ejecución del flujo manual documentado (SDK de Unitree y LeRobot) sobre una tarea acotada por parte del equipo, registrando el tiempo empleado. Como un mes de trabajo no puede reproducirse en una sesión, la fuente (iii) se limita a una tarea acotada y su resultado se reporta como una medida complementaria y no como sustituto de las otras dos.
+
+\subsection{Técnicas de análisis de datos}
+
+\begin{itemize}
+    \item \textbf{Estadística descriptiva:} frecuencias y porcentajes para variables categóricas; medianas y rango intercuartílico para las escalas Likert, por su naturaleza ordinal; media y desviación estándar para tiempos y puntajes SUS cuando su distribución lo permita.
+    \item \textbf{Análisis de contenido temático:} codificación de las respuestas abiertas y de las observaciones de las sesiones para agrupar barreras y problemas de usabilidad recurrentes.
+    \item \textbf{Contraste de tiempos (OE-05):} se verifica la normalidad de los tiempos con la prueba de Shapiro-Wilk \parencite{shapiro1965analysis}. Se compara el tiempo operativo con Armando ($T_{A}$) frente a la línea base ($T_{B}$) y se evalúa si se cumple el criterio $T_{A} \leq 0{,}33\,T_{B}$, que es la interpretación operativa de la meta de reducir el tiempo ``de 1 mes a un 33\%''. Dado el tamaño reducido de la muestra, se emplea la prueba de rangos con signo de Wilcoxon \parencite{wilcoxon1945individual} sobre la diferencia $T_{A} - 0{,}33\,T_{B}$, con nivel de significancia $\alpha = 0{,}05$, y se reporta el intervalo de confianza del 95\%.
+    \item \textbf{Usabilidad:} el puntaje SUS de cada participante se calcula según el procedimiento de \textcite{brooke1996sus} y se interpreta con el umbral de aceptabilidad de 70 puntos \parencite{bangor2008empirical}.
+    \item \textbf{Tasas de éxito y latencia:} porcentaje de ensayos completados sin intervención manual y estadísticos de posición y dispersión de la latencia de red.
+\end{itemize}
+
+El procesamiento se realiza con Python (bibliotecas \texttt{pandas} y \texttt{SciPy}), y los datos y \textit{scripts} de análisis se conservan en el repositorio del proyecto para garantizar la reproducibilidad.
+
+\subsection{Matriz de validación}
+
+La Tabla \ref{tab:validacion} define, para cada objetivo específico y para el problema, el indicador, el instrumento con su técnica de análisis y el criterio de éxito. Los umbrales de éxito son propuestos por los autores y pueden ajustarse tras la prueba piloto, dejando constancia del cambio.
+
+\begin{longtable}{|p{2.3cm}|p{4.1cm}|p{4.4cm}|p{3.6cm}|}
+\caption{Matriz de validación: indicadores, instrumentos y criterios de éxito}
+\label{tab:validacion}\\
+\hline
+\rowcolor{gray!20}
+\textbf{Elemento} & \textbf{Indicador} & \textbf{Instrumento y análisis} & \textbf{Criterio de éxito} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{Elemento} & \textbf{Indicador} & \textbf{Instrumento y análisis} & \textbf{Criterio de éxito} \\
+\hline
+\endhead
+
+\textbf{Problema} &
+Proporción de respondientes que reportan barreras técnicas y de acceso para desplegar modelos sobre un humanoide; tiempo declarado de puesta en marcha. &
+Instrumento 1; frecuencias, medianas y análisis temático. &
+La mayoría de los respondientes (más del 50\%) califica las barreras como relevantes (4 o 5 en la escala). \\
+\hline
+
+\textbf{OE-01} &
+Modelos (ACT, $\pi_0$, GR00T) listados con arquitectura, hiperparámetros y compatibilidad de datasets. &
+Instrumentos 2 y 3; prueba funcional del catálogo. &
+Los tres modelos del alcance listados y seleccionables. \\
+\hline
+
+\textbf{OE-02} &
+Articulaciones identificadas automáticamente al cargar un modelo, sobre el total de 29 grados de libertad. &
+Instrumento 3; prueba funcional sobre el robot, conteo por ensayo. &
+Identificación automática de las 29 articulaciones sin intervención manual. \\
+\hline
+
+\textbf{OE-03} &
+Tasa de ensayos en que el modelo cargado se ejecuta completo en el robot; incidentes registrados. &
+Instrumento 3; frecuencias y análisis de incidentes. &
+Ejecución completa en al menos el 80\% de los ensayos, sin daños al \textit{hardware}. \\
+\hline
+
+\textbf{OE-04} &
+Sesiones remotas completadas (carga y ejecución) sin presencia física; latencia de ida y vuelta. &
+Instrumento 3; frecuencias, mediana y percentiles de latencia. &
+Al menos una sesión remota completa exitosa y latencia estable durante la ejecución. \\
+\hline
+
+\textbf{OE-05} &
+Tiempo operativo de parametrización y carga con Armando ($T_{A}$) frente a la línea base ($T_{B}$). &
+Instrumentos 1, 2 y 3; prueba de Wilcoxon e intervalo de confianza. &
+$T_{A} \leq 0{,}33\,T_{B}$ con $\alpha = 0{,}05$. \\
+\hline
+
+\textbf{Aceptación de la solución} &
+Puntaje SUS y valoración del concepto por los usuarios. &
+Instrumentos 1 y 2; estadística descriptiva. &
+Puntaje SUS medio de al menos 70 puntos. \\
+\hline
+\end{longtable}
+
+\subsection{Consideraciones éticas y de seguridad}
+
+La participación en la encuesta y en la prueba de usabilidad es voluntaria y requiere consentimiento informado, en el que se explican el propósito académico del estudio, el tratamiento de los datos y el derecho a retirarse. Los datos se recolectan de forma anónima o seudonimizada y solo se recogen los necesarios (rol, nivel de estudios y experiencia), en concordancia con la Ley 1581 de 2012 de protección de datos personales \parencite{colombia-ley1581-2012}. Los resultados se reportan de forma agregada.
+
+Las sesiones sobre el Unitree G1 Edu se realizan bajo la supervisión y el protocolo establecidos por el FabLab de la Universidad EAN: se limitan a pruebas de software, sin modificar el \textit{hardware} ni la configuración base, y ningún comando llega al robot sin pasar por la capa de seguridad cinemática, que incluye la parada de emergencia por software.
+
+\subsection{Limitaciones metodológicas}
+
+Los resultados deben interpretarse considerando que (i) el muestreo no probabilístico y el tamaño reducido de las muestras limitan la generalización; (ii) la evaluación se realiza sobre una única plataforma, el Unitree G1 Edu; (iii) la línea base de tiempos se apoya parcialmente en valores de referencia y tiempos autodeclarados; y (iv) el diseño cuasi-experimental de un solo grupo no permite atribuir causalmente toda la mejora observada a la plataforma. Estas limitaciones se discuten nuevamente en las conclusiones.
 
 \clearpage
 
