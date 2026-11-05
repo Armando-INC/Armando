@@ -58,7 +58,7 @@ const rCan=L.canvas({pane:'poligonos',padding:.3});
 const aviso=document.getElementById('aviso');const pend={};
 function bbox(c,b){if(typeof c[0]==='number'){if(c[0]<b[0])b[0]=c[0];if(c[1]<b[1])b[1]=c[1];if(c[0]>b[2])b[2]=c[0];if(c[1]>b[3])b[3]=c[1];}else c.forEach(x=>bbox(x,b));return b;}
 // los poligonos solo se dibujan cerca (zoom) y solo los de la vista actual: dibujar los miles a escala nacional congela el navegador
-function cargar(nombre,url,estilo,popup,minZoom,visible){
+function cargar(nombre,url,estilo,popup,minZoom,visible,demora){
  let feats=null;const grupo=L.layerGroup();
  function refrescar(){grupo.clearLayers();if(!feats||!map.hasLayer(grupo))return;
   if(map.getZoom()<minZoom){pend[nombre]=1;}else{delete pend[nombre];
@@ -67,21 +67,22 @@ function cargar(nombre,url,estilo,popup,minZoom,visible){
    if(sel.length>2500){pend[nombre]=1;}else L.geoJSON({type:'FeatureCollection',features:sel.map(x=>x.f)},{renderer:rCan,pane:'poligonos',style:estilo,onEachFeature:(f,ly)=>ly.bindPopup(popup(f.properties))}).addTo(grupo);}
   aviso.textContent=Object.keys(pend).length?'Acerca el zoom para ver: '+Object.keys(pend).join(', '):'';}
  map.on('moveend',refrescar);grupo.on('add',refrescar);grupo.on('remove',()=>{delete pend[nombre];refrescar();});
- return fetch(url).then(r=>r.json()).then(g=>{feats=g.features.map(f=>({f,b:bbox(f.geometry.coordinates,[1e9,1e9,-1e9,-1e9])}));
+ return new Promise(r=>setTimeout(r,demora||0)).then(()=>fetch(url)).then(r=>r.json()).then(g=>{feats=g.features.map(f=>({f,b:bbox(f.geometry.coordinates,[1e9,1e9,-1e9,-1e9])}));
   capas.addOverlay(grupo,nombre+' ('+g.features.length+', zoom ≥ '+minZoom+')');if(visible)grupo.addTo(map);return g;}).catch(e=>{console.warn('No se pudo cargar '+url,e);return null;});
 }
 const telLink=t=>t?t.split('|').map(x=>'<a href="tel:'+esc(x)+'">'+esc(x)+'</a>').join(' · '):'sin teléfono';
 const geoCuadrantes=cargar('Cuadrantes MNVCC','datos/mnvcc_cuadrantes.geojson',f=>({color:f.properties.t?'#1976d2':'#c62828',weight:1,fillOpacity:.12}),
- p=>'<div class="pop"><b>'+esc(p.n)+'</b>'+(p.d&&p.d!=='0'?'<br>Municipio (DANE): '+esc(p.d):'')+'<br>Tel: '+telLink(p.t)+'<br><small>Fuente: Policía Nacional, MNVCC</small></div>',11,true);
+ p=>'<div class="pop"><b>'+esc(p.n)+'</b>'+(p.d&&p.d!=='0'?'<br>Municipio (DANE): '+esc(p.d):'')+'<br>Tel: '+telLink(p.t)+'<br><small>Fuente: Policía Nacional, MNVCC</small></div>',11,true,700);
 cargar('Barrios MNVCC','datos/mnvcc_barrios.geojson',()=>({color:'#6a1b9a',weight:1,fillOpacity:.05}),
- p=>'<div class="pop"><b>'+esc(p.n)+'</b><br>'+esc(p.m)+', '+esc(p.dp)+'</div>',12,false);
+ p=>'<div class="pop"><b>'+esc(p.n)+'</b><br>'+esc(p.m)+', '+esc(p.dp)+'</div>',12,false,6000);
 const verTodo=()=>{if(D.length)map.fitBounds(L.latLngBounds(D.map(p=>[p.lat,p.lon])),{padding:[30,30]});};
 if(!navigator.geolocation)verTodo();
 // ---------- Geolocalización ----------
 let yo=null,yoCirc=null,primera=true;
 function dist(a,b,c,d){const R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 let cercanaLn=null,cuadG=null,minimizada=false;
-geoCuadrantes.then(g=>{cuadG=g;});
+let ultLL=null;
+geoCuadrantes.then(g=>{cuadG=g;if(ultLL)masCercana(ultLL);});
 function enAnillo(x,y,r){let d=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])d=!d;}return d;}
 function enPoli(x,y,rs){return enAnillo(x,y,rs[0])&&!rs.slice(1).some(h=>enAnillo(x,y,h));}
 function cuadranteDe(ll){if(!cuadG)return null;for(const f of cuadG.features){const g=f.geometry;
@@ -97,6 +98,7 @@ const emerg='<div class="sh-r"><a class="e" href="tel:123">📞 Línea 123</a></
 hoja('<small>Buscando tu ubicación para mostrarte el CAI más cercano…</small><div style="height:8px"></div>'+emerg);
 const llam=t=>'tel:'+String(t).replace(/[^+\d]/g,'');
 function masCercana(ll){
+ ultLL=ll;try{localStorage.setItem('ultpos',JSON.stringify([ll.lat,ll.lng]));}catch(e){}
  const c=D.filter(p=>p.tel.length).map(p=>({p,k:dist(ll.lat,ll.lng,p.lat,p.lon)})).sort((a,b)=>a.k-b.k);if(!c.length)return null;
  const prin=c.find(x=>x.p.t==='CAI')||c[0],otras=c.filter(x=>x!==prin).slice(0,2),m=prin.p,cu=cuadranteDe(ll);
  hoja.irA=m;
@@ -121,7 +123,7 @@ const locBtn=L.control({position:'topleft'});
 locBtn.onAdd=()=>{const b=L.DomUtil.create('div','leaflet-bar');const a=L.DomUtil.create('a','',b);a.href='#';a.title='Ir a mi ubicación';a.innerHTML='&#9678;';
  a.style.cssText='font-size:20px;line-height:30px;text-align:center;text-decoration:none;color:#1a73e8';
  L.DomEvent.disableClickPropagation(b);
- L.DomEvent.on(a,'click',ev=>{L.DomEvent.preventDefault(ev);primera=true;map.locate({setView:false,enableHighAccuracy:true,watch:true});});return b;};
+ L.DomEvent.on(a,'click',ev=>{L.DomEvent.preventDefault(ev);primera=true;map.locate({setView:false,enableHighAccuracy:false,maximumAge:300000,timeout:15000,watch:true});});return b;};
 locBtn.addTo(map);
 
 // ---------- Buscador ----------
@@ -151,8 +153,11 @@ async function lugar(){const txt=q.value.trim();if(!txt)return;msg.textContent='
 q.addEventListener('input',locales);
 q.addEventListener('keydown',e=>{if(e.key==='Enter')lugar();});
 
+// arranque inmediato con la última posición conocida (se corrige cuando llega la real)
+try{const u=JSON.parse(localStorage.getItem('ultpos')||'null');if(u&&!location.hash.startsWith('#alerta')){const ll=L.latLng(u[0],u[1]),c=masCercana(ll);
+ if(c&&c.k<30)map.fitBounds(L.latLngBounds([ll,[c.p.lat,c.p.lon]]),{maxZoom:17,paddingTopLeft:[40,60],paddingBottomRight:[40,map.getSize().x>700?60:290]});else map.setView(ll,14);}}catch(e){}
 // ubicarse automáticamente al abrir (requiere permiso; funciona en localhost/https)
-map.locate({setView:false,enableHighAccuracy:true,watch:true});
+map.locate({setView:false,enableHighAccuracy:false,maximumAge:300000,timeout:15000,watch:true});
 
 // --- alertas de arma: llegan por el enlace (#alerta=...) o, con sistema/servidor.py, por api/alertas ---
 // en rojo el punto de la alerta; en amarillo la policía a la que se llamó (cuadrante o unidad) y la unidad del cuadrante
