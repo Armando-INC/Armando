@@ -1,3 +1,18 @@
+"""Seguimiento de detecciones entre cuadros: filtro de Kalman + emparejamiento por IoU (estilo SORT).
+
+Cada arma detectada recibe un ID que se mantiene de un cuadro a otro. El filtro de Kalman predice dónde estará la
+caja (centro, tamaño y velocidad) y suaviza las que tiemblan; una detección solo queda `confirmed` cuando aparece en
+`min_hits` cuadros, y se olvida si desaparece más de `max_age` cuadros. Sirve para descartar detecciones sueltas.
+
+    rastreador = KalmanIoUTracker()
+    for frame in video:
+        detecciones = [{'bbox': [x1, y1, x2, y2], 'confidence': c, 'class_name': 'Guns'} for x1, y1, x2, y2, c in detector(frame)]
+        for t in rastreador.update(detecciones):
+            t['track_id'], t['bbox'], t['confirmed']
+
+detector.py lo usa en cada cuadro: para la alerta solo cuentan las armas confirmadas, así que las detecciones sueltas
+(una caja que aparece en un lugar distinto cada vez) no la disparan.
+"""
 import numpy as np
 
 

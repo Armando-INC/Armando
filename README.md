@@ -39,14 +39,15 @@ foto con la detección.</sub>
 
 | 🧠 Ve | 👮 Decide | 📞 Llama | 🗺️ Muestra |
 |:--|:--|:--|:--|
-| Un modelo YOLO26n revisa cada cuadro de la cámara y confirma el arma en varios cuadros seguidos para evitar falsas alarmas. | Busca el cuadrante de la Policía (MNVCC) que cubre la cámara y el celular de su patrulla. | Llama con Twilio: *"Se reportó un arma de fuego en la ubicación: …"*. En modo prueba, a tu número. | Pinta la alerta en el mapa: la cámara en rojo y la policía llamada en amarillo, mientras dura la alerta. |
+| Un modelo YOLO26n revisa cada cuadro de la cámara y un filtro de Kalman sigue cada arma entre cuadros: solo alerta si la ve de forma sostenida. | Busca el cuadrante de la Policía (MNVCC) que cubre la cámara y el celular de su patrulla. | Llama con Twilio: *"Se reportó un arma de fuego en la ubicación: …"*. En modo prueba, a tu número. | Pinta la alerta en el mapa: la cámara en rojo y la policía llamada en amarillo, mientras dura la alerta. |
 
 ## 🔁 Cómo funciona
 
 ```mermaid
 flowchart LR
     cam["📷 Cámara"] --> det["🧠 Detector YOLO26n<br/><code>sistema/detector.py</code>"]
-    det -->|"arma en 5 de 10 cuadros"| ale["🚨 Alerta<br/><code>sistema/alerta.py</code>"]
+    det --> seg["🎯 Seguimiento Kalman + IoU<br/><code>sistema/seguimiento.py</code>"]
+    seg -->|"arma confirmada en 5 de 10 cuadros"| ale["🚨 Alerta<br/><code>sistema/alerta.py</code>"]
     ale --> pol["👮 Policía más cercana<br/><code>sistema/policia.py</code>"]
     pol --> tw["📞 Twilio<br/><code>sistema/llamada.py</code>"]
     tw --> cel["📱 Celular de la patrulla<br/>o tu número en modo prueba"]
@@ -69,8 +70,9 @@ sequenceDiagram
     loop cada cuadro
         C->>D: imagen
         D->>D: YOLO + NMS con confianza ≥ UMBRAL_CONFIANZA
+        D->>D: seguimiento Kalman + IoU → ID por arma, confirmada si se repite
     end
-    D->>D: arma en 5 de los últimos 10 cuadros → guarda la foto
+    D->>D: arma confirmada en 5 de los últimos 10 cuadros → guarda la foto
     D->>T: crear llamada
     T->>U: 🔔 "Se reportó un arma de fuego en la ubicación: Universidad EAN…"
     D->>M: guarda la alerta en el registro
@@ -97,6 +99,7 @@ sequenceDiagram
 Armando/
 ├── 🧠 sistema/                 Código Python
 │   ├── detector.py             cámara + YOLO → dispara la alerta
+│   ├── seguimiento.py          filtro de Kalman + IoU: un ID por arma entre cuadros, descarta detecciones sueltas
 │   ├── alerta.py               ubica, elige la policía, llama y registra (también se usa desde la terminal)
 │   ├── policia.py              a qué policía llamar
 │   ├── llamada.py              llamada con Twilio y mensaje de voz
@@ -191,7 +194,7 @@ cp .env.example .env
 | `DISTANCIA_MAX_KM` | Hasta dónde buscar policía si el cuadrante no tiene teléfono | `20` |
 | `CAMARA` · `MODELO` | Webcam (`0`, `1`…) o URL RTSP · modelo `rgb` o `gray` | `0` · `rgb` |
 | `UMBRAL_CONFIANZA` | Confianza mínima de la detección | `0.6` |
-| `FRAMES_CONFIRMACION` · `VENTANA_FRAMES` | Alerta con arma en N de los últimos M cuadros | `5` · `10` |
+| `FRAMES_CONFIRMACION` · `VENTANA_FRAMES` | Alerta con un arma confirmada por el seguimiento en N de los últimos M cuadros | `5` · `10` |
 | `ENFRIAMIENTO_S` | Segundos entre alertas, y lo que la alerta queda marcada en el mapa | `120` |
 
 > [!NOTE]
@@ -275,7 +278,10 @@ YOLO26n (Ultralytics) entrenado para una sola clase, `Guns`, con imágenes de 64
 <p align="center"><sub>Curvas precisión-recall en validación: RGB (izquierda) y gray (derecha).</sub></p>
 
 Con el umbral por defecto (`0.6`) la precisión en validación ronda el 97 %, y llega a 100 % desde 0.77. A cambio,
-el modelo deja pasar parte de las armas, por eso la alerta exige verlas en varios cuadros seguidos.
+en un cuadro suelto se le escapan algunas armas; como un arma suele quedarse varios segundos en cámara, basta con
+verla en 5 de 10 cuadros. Además, el seguimiento (`sistema/seguimiento.py`, Kalman + IoU) solo cuenta las
+detecciones que corresponden a un mismo objeto, así que una caja que aparece en un lugar distinto cada vez no
+dispara la alerta.
 
 <details>
 <summary><b>Ejemplos de detección en validación</b></summary>

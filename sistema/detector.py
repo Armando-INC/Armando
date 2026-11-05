@@ -1,7 +1,8 @@
 """Detector de armas con YOLO (ONNX) sobre una cámara. Al confirmar un arma dispara la alerta.
 
-La ubicación y la policía destino se calculan una vez al arrancar (la cámara es fija), así en el momento de la
-alerta solo falta llamar.
+Las detecciones pasan por el seguimiento (seguimiento.py, Kalman + IoU) y la alerta se dispara cuando hay un arma
+confirmada en FRAMES_CONFIRMACION de los últimos VENTANA_FRAMES cuadros. La ubicación y la policía destino se
+calculan una vez al arrancar (la cámara es fija), así en el momento de la alerta solo falta llamar.
 
   python sistema/detector.py --mostrar                 # cámara del .env (CAMARA)
   python sistema/detector.py --imagen foto.jpg         # probar el modelo con una imagen
@@ -19,6 +20,7 @@ import onnxruntime as ort
 
 import alerta
 import config
+from seguimiento import KalmanIoUTracker
 
 # La ventana de OpenCV usa Qt. En Linux avisa que ignora Wayland y que no encuentra fuentes (OpenCV apunta, al
 # importarse, a una carpeta que no trae); no afecta nada, pero así la terminal queda limpia
@@ -76,10 +78,23 @@ class Detector:
                 for i in np.array(indices).flatten() for x, y, bw, bh in [cajas[i]]]
 
 
+def _caja(frame, x1, y1, x2, y2, texto, color):
+    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+    cv2.putText(frame, texto, (x1, max(y1 - 6, 12)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+
+
 def dibujar(frame, detecciones):
     for x1, y1, x2, y2, conf in detecciones:
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
-        cv2.putText(frame, f'arma {conf:.2f}', (x1, max(y1 - 6, 12)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+        _caja(frame, x1, y1, x2, y2, f'arma {conf:.2f}', (0, 0, 255))
+    return frame
+
+
+def dibujar_seguimiento(frame, seguidas):
+    """Cada arma con su ID: roja si el seguimiento ya la confirmó, naranja si todavía no."""
+    for s in seguidas:
+        x1, y1, x2, y2 = (int(v) for v in s['bbox'])
+        _caja(frame, x1, y1, x2, y2, f'arma #{s["track_id"]} {s["confidence"]:.2f}',
+              (0, 0, 255) if s['confirmed'] else (0, 165, 255))
     return frame
 
 
@@ -107,10 +122,11 @@ def vigilar(detector, fuente, llamar, mostrar):
     if not camara.isOpened():
         sys.exit(f'No se pudo abrir la cámara {fuente}')
     es_archivo = not fuente.isdigit() and '://' not in fuente
+    rastreador = KalmanIoUTracker()
     ventana = collections.deque(maxlen=config.VENTANA_FRAMES)
     ultima = 0.0
-    print(f'Vigilando... alerta con arma en {config.FRAMES_CONFIRMACION} de {config.VENTANA_FRAMES} frames '
-          f'(confianza ≥ {detector.umbral}). Ctrl+C para salir.')
+    print(f'Vigilando... alerta con un arma confirmada por el seguimiento en {config.FRAMES_CONFIRMACION} de '
+          f'{config.VENTANA_FRAMES} cuadros (confianza ≥ {detector.umbral}). Ctrl+C para salir.')
     try:
         while True:
             ok, frame = camara.read()
@@ -123,22 +139,25 @@ def vigilar(detector, fuente, llamar, mostrar):
                 camara.release()
                 camara = cv2.VideoCapture(int(fuente) if fuente.isdigit() else fuente)
                 continue
-            detecciones = detector(frame)
-            ventana.append(max((d[4] for d in detecciones), default=0.0))
+            # solo cuentan las armas que el seguimiento confirmó (la misma caja en varios cuadros): una detección
+            # suelta, que salta de un lado a otro, no suma para la alerta
+            seguidas = rastreador.update([{'bbox': list(d[:4]), 'confidence': d[4], 'class_name': 'arma'}
+                                          for d in detector(frame)])
+            ventana.append(max((s['confidence'] for s in seguidas if s['confirmed']), default=0.0))
             confirmadas = [c for c in ventana if c > 0]
             if len(confirmadas) >= config.FRAMES_CONFIRMACION and time.time() - ultima >= config.ENFRIAMIENTO_S:
                 ultima = time.time()
                 ventana.clear()
                 config.CAPTURAS.mkdir(parents=True, exist_ok=True)
                 captura = time.strftime('%Y%m%d_%H%M%S') + '.jpg'
-                cv2.imwrite(str(config.CAPTURAS / captura), dibujar(frame.copy(), detecciones))
+                cv2.imwrite(str(config.CAPTURAS / captura), dibujar_seguimiento(frame.copy(), seguidas))
                 a = alerta.disparar(u, destino, llamar=llamar,
                                     extra={'confianza': round(max(confirmadas), 3), 'captura': captura})
                 print(alerta.resumen(a), flush=True)
                 if a['llamada'].get('sid'):
                     alerta.seguir_llamada(a)
             if mostrar:
-                cv2.imshow('Armando', dibujar(frame, detecciones))
+                cv2.imshow('Armando', dibujar_seguimiento(frame, seguidas))
                 if cv2.waitKey(1) & 0xFF in (ord('q'), 27):
                     break
     except KeyboardInterrupt:
