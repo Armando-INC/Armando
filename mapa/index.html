@@ -15,9 +15,18 @@
 @keyframes latido{0%{box-shadow:0 0 0 0 rgba(213,0,0,.8)}100%{box-shadow:0 0 0 22px rgba(213,0,0,0)}}
 @keyframes brillo{0%{box-shadow:0 0 0 0 rgba(255,214,0,.9)}100%{box-shadow:0 0 0 20px rgba(255,214,0,0)}}
 @keyframes parpadeo{from{fill-opacity:.6;stroke-opacity:1}to{fill-opacity:.15;stroke-opacity:.5}}
-#banner{display:none;position:absolute;z-index:1000;top:10px;left:290px;max-width:380px;background:#b71c1c;color:#fff;padding:9px 30px 9px 12px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.5);line-height:1.45}
+#banner{display:none;position:absolute;z-index:1000;top:10px;left:56px;max-width:380px;background:#b71c1c;color:#fff;padding:9px 30px 9px 12px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.5);line-height:1.45}
 #banner a{color:#fff}#banner .x{position:absolute;top:3px;right:9px;cursor:pointer;font-size:20px}
-@media(max-width:640px){#banner{top:auto;bottom:30px;left:10px;right:10px;max-width:none}}</style></head><body><div id="m"></div><div id="banner"></div>
+#sos{position:absolute;z-index:1000;left:10px;bottom:24px;width:360px;max-width:calc(100% - 20px);background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.45);overflow:hidden;line-height:1.35}
+#sos .sh-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#b71c1c;color:#fff;font-weight:600;cursor:pointer}
+#sos .sh-b{padding:12px 14px;max-height:55vh;overflow:auto}#sos.min .sh-b{display:none}
+#sos .sh-n{font-size:17px;font-weight:700}#sos small{color:#555}
+#sos .llamar{display:block;margin:10px 0 8px;padding:13px;background:#1b8a3a;color:#fff!important;text-align:center;font-size:18px;font-weight:700;border-radius:10px;text-decoration:none}
+#sos .sh-r{display:flex;gap:8px}#sos .sh-r a{flex:1;text-align:center;padding:9px 4px;border:1px solid #cfd8dc;border-radius:8px;color:#0b57d0;text-decoration:none;font-size:13px;cursor:pointer}
+#sos .sh-r a.e{background:#fdecea;border-color:#e57373;color:#b71c1c;font-weight:700}
+#sos .otras{margin-top:10px;border-top:1px solid #eee;padding-top:8px;font-size:13px}#sos .otras div{margin:3px 0}
+.btn-b{display:inline-block;background:#fff;padding:6px 10px;border-radius:6px;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer;color:#0b57d0;font-weight:600;text-decoration:none}
+@media(max-width:640px){#banner{top:10px;left:56px;right:10px;max-width:none}#sos{left:8px;right:8px;bottom:8px;width:auto;max-width:none}}</style></head><body><div id="m"></div><div id="banner"></div><div id="sos"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
@@ -38,13 +47,13 @@ const marks=D.map(p=>({p,m:L.circleMarker([p.lat,p.lon],{radius:8,color:'#fff',w
 function draw(){cl.clearLayers();const v=marks.filter(x=>activos.has(x.p.t));cl.addLayers(v.map(x=>x.m));cnt.textContent=v.length+' de '+D.length+' puntos';}
 map.addLayer(cl);
 const ctl=L.control({position:'topright'});ctl.onAdd=()=>{const d=L.DomUtil.create('div','panel');L.DomEvent.disableClickPropagation(d);
- d.innerHTML='<b>Directorio policial</b><span id="cnt"></span><hr style="margin:6px 0">'+Object.keys(COL).map(k=>'<div><span class="dot" style="background:'+COL[k]+'"></span>'+NAME[k]+'</div>').join('')
+ d.innerHTML='<details><summary style="cursor:pointer;font-weight:600">Filtros y leyenda</summary><span id="cnt"></span><hr style="margin:6px 0">'+Object.keys(COL).map(k=>'<div><span class="dot" style="background:'+COL[k]+'"></span>'+NAME[k]+'</div>').join('')
  +'<div id="aviso" style="color:#b26a00;font-size:12px"></div><div><span class="dot" style="background:#1976d2;opacity:.5"></span>Cuadrante con teléfono</div><div><span class="dot" style="background:#c62828;opacity:.5"></span>Cuadrante sin teléfono</div>'
- +'<hr style="margin:6px 0"><b>Tipo</b>'+tipos.map(t=>'<label style="display:block"><input type="checkbox" checked data-t="'+esc(t)+'"> '+esc(t)+' ('+D.filter(p=>p.t===t).length+')</label>').join('');
+ +'<hr style="margin:6px 0"><b>Tipo</b>'+tipos.map(t=>'<label style="display:block"><input type="checkbox" checked data-t="'+esc(t)+'"> '+esc(t)+' ('+D.filter(p=>p.t===t).length+')</label>').join('')+'</details>';
  d.addEventListener('change',e=>{const t=e.target.dataset.t;e.target.checked?activos.add(t):activos.delete(t);draw();});return d;};ctl.addTo(map);
 const cnt=document.getElementById('cnt');draw();
 map.createPane('poligonos');map.getPane('poligonos').style.zIndex=350;
-const capas=L.control.layers(null,{'Unidades (puntos)':cl},{collapsed:false,position:'bottomright'}).addTo(map);
+const capas=L.control.layers(null,{'Unidades (puntos)':cl},{collapsed:true,position:'topright'}).addTo(map);
 const rCan=L.canvas({pane:'poligonos',padding:.3});
 const aviso=document.getElementById('aviso');const pend={};
 function bbox(c,b){if(typeof c[0]==='number'){if(c[0]<b[0])b[0]=c[0];if(c[1]<b[1])b[1]=c[1];if(c[0]>b[2])b[2]=c[0];if(c[1]>b[3])b[3]=c[1];}else c.forEach(x=>bbox(x,b));return b;}
@@ -70,21 +79,43 @@ if(D.length){map.fitBounds(L.latLngBounds(D.map(p=>[p.lat,p.lon])),{padding:[30,
 // ---------- Geolocalización ----------
 let yo=null,yoCirc=null,primera=true;
 function dist(a,b,c,d){const R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
-let cercanaLn=null;
-function masCercana(ll){let m=null,dm=1e9;D.forEach(p=>{const k=dist(ll.lat,ll.lng,p.lat,p.lon);if(k<dm){dm=k;m=p;}});
- const c=document.getElementById('cerca');if(!m||!c)return;
- c.innerHTML='<b>Unidad más cercana</b>'+esc(m.n)+'<br><small>'+esc(m.t)+' · a '+(dm<1?Math.round(dm*1000)+' m':dm.toFixed(1)+' km')+' (línea recta)</small><br><a href="#" id="irc">Ver en el mapa</a>';
- document.getElementById('irc').onclick=ev=>{ev.preventDefault();irUnidad(m);};
- if(cercanaLn)cercanaLn.setLatLngs([ll,[m.lat,m.lon]]);else cercanaLn=L.polyline([ll,[m.lat,m.lon]],{color:'#1a73e8',weight:2,dashArray:'6 6',interactive:false}).addTo(map);}
+let cercanaLn=null,cuadG=null,minimizada=false;
+geoCuadrantes.then(g=>{cuadG=g;});
+function enAnillo(x,y,r){let d=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])d=!d;}return d;}
+function enPoli(x,y,rs){return enAnillo(x,y,rs[0])&&!rs.slice(1).some(h=>enAnillo(x,y,h));}
+function cuadranteDe(ll){if(!cuadG)return null;for(const f of cuadG.features){const g=f.geometry;
+ if(!f._b)f._b=bbox(g.coordinates,[1e9,1e9,-1e9,-1e9]);const b=f._b;if(ll.lng<b[0]||ll.lng>b[2]||ll.lat<b[1]||ll.lat>b[3])continue;
+ if(g.type==='Polygon'?enPoli(ll.lng,ll.lat,g.coordinates):g.coordinates.some(r=>enPoli(ll.lng,ll.lat,r)))return f.properties;}return null;}
+function dist(a,b,c,d){const R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+const kmTxt=k=>k<1?Math.round(k*1000)+' m':k.toFixed(1)+' km';
+const sos=document.getElementById('sos');
+function hoja(cuerpo){hoja.ult=cuerpo;sos.innerHTML='<div class="sh-h"><span>🚨 ¿Emergencia? Llama aquí</span><span>'+(minimizada?'▴':'▾')+'</span></div><div class="sh-b">'+cuerpo+'</div>';
+ sos.classList.toggle('min',minimizada);sos.querySelector('.sh-h').onclick=()=>{minimizada=!minimizada;hoja(hoja.ult);};
+ const irc=document.getElementById('irc');if(irc&&hoja.irA)irc.onclick=ev=>{ev.preventDefault();irUnidad(hoja.irA);};}
+const emerg='<div class="sh-r"><a class="e" href="tel:123">📞 Línea 123</a></div>';
+hoja('<small>Buscando tu ubicación para mostrarte el CAI más cercano…</small><div style="height:8px"></div>'+emerg);
+const llam=t=>'tel:'+String(t).replace(/[^+\d]/g,'');
+function masCercana(ll){
+ const c=D.filter(p=>p.tel.length).map(p=>({p,k:dist(ll.lat,ll.lng,p.lat,p.lon)})).sort((a,b)=>a.k-b.k);if(!c.length)return null;
+ const prin=c.find(x=>x.p.t==='CAI')||c[0],otras=c.filter(x=>x!==prin).slice(0,2),m=prin.p,cu=cuadranteDe(ll);
+ hoja.irA=m;
+ hoja('<small>'+(m.t==='CAI'?'CAI más cercano':'Unidad más cercana')+' · a '+kmTxt(prin.k)+(prin.k>30?' (estás lejos de las unidades registradas)':'')+'</small>'
+  +'<div class="sh-n">'+esc(m.n)+'</div><small>'+esc(m.d||'(sin dirección)')+(m.h?'<br>'+esc(m.h):'')+'</small>'
+  +'<a class="llamar" href="'+llam(m.tel[0])+'">📞 Llamar '+esc(m.tel[0])+'</a>'
+  +'<div class="sh-r"><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+m.lat+','+m.lon+'">Cómo llegar</a><a id="irc">Ver en el mapa</a><a class="e" href="tel:123">123</a></div>'
+  +(cu&&cu.t?'<div class="otras"><b>Cuadrante de tu zona:</b> '+esc(cu.n)+'<br>'+telLink(cu.t)+'</div>':'')
+  +(otras.length?'<div class="otras"><b>Otras cercanas</b>'+otras.map(x=>'<div>'+esc(x.p.n)+' · '+kmTxt(x.k)+'<br><a href="'+llam(x.p.tel[0])+'">'+esc(x.p.tel[0])+'</a></div>').join('')+'</div>':''));
+ if(cercanaLn)cercanaLn.setLatLngs([ll,[m.lat,m.lon]]);else cercanaLn=L.polyline([ll,[m.lat,m.lon]],{color:'#1a73e8',weight:2,dashArray:'6 6',interactive:false}).addTo(map);
+ return prin;}
 function ubicado(e){
- masCercana(e.latlng);
+ const cerca=masCercana(e.latlng);
  if(yo){yo.setLatLng(e.latlng);yoCirc.setLatLng(e.latlng).setRadius(e.accuracy);}
  else{yoCirc=L.circle(e.latlng,{radius:e.accuracy,color:'#1a73e8',weight:1,fillOpacity:.1,interactive:false}).addTo(map);
   yo=L.circleMarker(e.latlng,{radius:8,color:'#fff',weight:2,fillColor:'#1a73e8',fillOpacity:1}).bindTooltip('Estás aquí').addTo(map);}
- if(primera){primera=false;if(!(typeof actual!=='undefined'&&actual)&&!location.hash.startsWith('#alerta'))map.setView(e.latlng,Math.max(map.getZoom(),14));}
+ if(primera){primera=false;if(!(typeof actual!=='undefined'&&actual)&&!location.hash.startsWith('#alerta')){if(cerca&&cerca.k<30)map.fitBounds(L.latLngBounds([e.latlng,[cerca.p.lat,cerca.p.lon]]),{maxZoom:16,paddingTopLeft:[40,60],paddingBottomRight:[40,map.getSize().x>700?60:290]});else map.setView(e.latlng,14);}}
 }
 map.on('locationfound',ubicado);
-map.on('locationerror',e=>{if(!primera)return;primera=false;msg.textContent='No se pudo obtener tu ubicación ('+e.message+'). Revisa el permiso del navegador.';});
+map.on('locationerror',e=>{if(!primera)return;primera=false;hoja('<small>No pudimos ubicarte. Activa la ubicación del navegador o escribe tu dirección en 🔍 Buscar.</small><div style="height:8px"></div>'+emerg);});
 const locBtn=L.control({position:'topleft'});
 locBtn.onAdd=()=>{const b=L.DomUtil.create('div','leaflet-bar');const a=L.DomUtil.create('a','',b);a.href='#';a.title='Ir a mi ubicación';a.innerHTML='&#9678;';
  a.style.cssText='font-size:20px;line-height:30px;text-align:center;text-decoration:none;color:#1a73e8';
@@ -97,8 +128,10 @@ const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(
 const idx=D.map(p=>({p,k:norm([p.n,p.d,p.t,p.u].join(' '))}));
 const bus=L.control({position:'topleft'});
 bus.onAdd=()=>{const d=L.DomUtil.create('div','panel');d.style.width='260px';L.DomEvent.disableClickPropagation(d);L.DomEvent.disableScrollPropagation(d);
- d.innerHTML='<input id="q" type="search" placeholder="Buscar CAI, estación, dirección o lugar…" style="width:100%;box-sizing:border-box;padding:6px">'
-  +'<div id="cerca" style="font-size:13px;margin-top:6px"></div><div id="msg" style="font-size:12px;color:#b26a00"></div><div id="res" style="max-height:260px;overflow:auto"></div>';return d;};
+ d.className='';d.style.cssText='max-width:260px';
+ d.innerHTML='<a class="btn-b" id="bt" href="#">🔍 Buscar</a><div id="bb" class="panel" style="display:none;margin-top:6px;width:240px"><input id="q" type="search" placeholder="CAI, barrio, dirección o lugar…" style="width:100%;box-sizing:border-box;padding:6px">'
+  +'<div id="msg" style="font-size:12px;color:#b26a00"></div><div id="res" style="max-height:240px;overflow:auto"></div></div>';
+ d.querySelector('#bt').onclick=ev=>{ev.preventDefault();const b=d.querySelector('#bb');b.style.display=b.style.display==='none'?'block':'none';if(b.style.display==='block')d.querySelector('#q').focus();};return d;};
 bus.addTo(map);
 const q=document.getElementById('q'),res=document.getElementById('res'),msg=document.getElementById('msg');
 const item=(t,s,fn)=>{const a=document.createElement('div');a.style.cssText='padding:4px 2px;border-top:1px solid #eee;cursor:pointer';
@@ -158,7 +191,7 @@ function mostrar(a){
  resaltar(a);
  const d=a.destino,pts=[[a.lat,a.lon]];if(d){if(!d.dentro)pts.push([d.lat,d.lon]);if(d.base)pts.push([d.base.lat,d.base.lon]);}
  // margen para que el aviso y los paneles no tapen la alerta ni la policía
- const ancho=map.getSize().x>700;map.fitBounds(L.latLngBounds(pts),{maxZoom:16,paddingTopLeft:ancho?[290,180]:[20,20],paddingBottomRight:ancho?[250,120]:[20,200]});mostrarBanner(a);}
+ const ancho=map.getSize().x>700;map.fitBounds(L.latLngBounds(pts),{maxZoom:16,paddingTopLeft:ancho?[60,180]:[20,140],paddingBottomRight:ancho?[250,120]:[20,260]});mostrarBanner(a);}
 function desdeHash(){const m=location.hash.match(/^#alerta=(.+)$/);if(!m)return;
  try{mostrar(JSON.parse(decodeURIComponent(m[1])));}catch(e){console.warn('Alerta inválida en el enlace',e);}}
 window.addEventListener('hashchange',desdeHash);desdeHash();
