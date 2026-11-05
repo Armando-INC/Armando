@@ -150,3 +150,6 @@ Documento\ Academico/*
 !Documento\ Academico/*.tex
 !Documento\ Academico/*.bib
 !Documento\ Academico/*.pdf
+
+# Armando: alertas, capturas y caché de geocodificación generadas al ejecutar
+Armando/sistema/registro/
